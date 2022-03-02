@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="480.0" minWidth="854.0" prefHeight="480.0" prefWidth="854.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" styleClass="bodybg" stylesheets="@simscreen.css" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <Pane prefHeight="97.0" prefWidth="600.0" style="-fx-background-color: #0055ff;" BorderPane.alignment="CENTER" />
+   </bottom>
+   <right>
+      <Pane prefHeight="302.0" prefWidth="141.0" style="-fx-background-color: #48f542;" BorderPane.alignment="CENTER">
+         <children>
+            <DatePicker layoutX="13.0" layoutY="31.0" prefHeight="25.0" prefWidth="115.0" />
+            <ChoiceBox fx:id="planetChoice" layoutX="13.0" layoutY="97.0" prefHeight="25.0" prefWidth="115.0" />
+            <ChoiceBox fx:id="planetChoice1" layoutX="13.0" layoutY="166.0" prefHeight="25.0" prefWidth="115.0" />
+         </children></Pane>
+   </right>
+</BorderPane>

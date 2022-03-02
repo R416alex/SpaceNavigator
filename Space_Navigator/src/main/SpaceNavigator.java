@@ -17,12 +17,6 @@ public class SpaceNavigator extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		GraphicsManager = new GraphicsManager(primaryStage);
 		
-//		MatlabEngine mateng	 = MatlabEngine.startMatlab();
-//		mateng.eval("syms x;", null, null);
-//		mateng.eval("f = sin(x)/x");
-//		StringWriter output = new StringWriter();
-//		mateng.eval("limit(f,x,0)", output, null);
-//		System.out.println(output.toString());
 	}
 	
 
