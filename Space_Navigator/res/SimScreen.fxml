@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" scaleShape="false" styleClass="container" stylesheets="@Simscreen.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.SimScreenControler">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
+         <center>
+            <Pane prefHeight="156.0" prefWidth="163.0" styleClass="bodybg" BorderPane.alignment="TOP_LEFT" />
+         </center>
+         <bottom>
+            <GridPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" styleClass="bottompanel" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1080.0" minWidth="1080.0" prefWidth="1080.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="202.0" minWidth="10.0" prefWidth="201.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quit" text="Quit" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="FullScreenButton" mnemonicParsing="false" onAction="#toggleFullscreen" text="Toggle Full Screen" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+         </bottom>
+         <right>
+            <GridPane alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" styleClass="rightpanel" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ChoiceBox fx:id="StartingPlanetSelector" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <ChoiceBox fx:id="DestinationPlanetSelector" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Label text="Source Planet" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Destination Planet" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <DatePicker GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Button fx:id="SetOrbitalElementsButton" mnemonicParsing="false" onAction="#toggleOrbitalElements" text="Set Orbital Elements" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+         </right>
+      </BorderPane>
+      <GridPane fx:id="OrbitalElements" alignment="CENTER" layoutX="340.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #fff8c4;" visible="false">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="200.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints percentHeight="15.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="35.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+               <children>
+                  <Label prefWidth="150.0" text="Semimajor Axis (Km)" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Eccentricity" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="-11.0" left="10.0" right="10.0" top="20.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Inclination (Degrees)" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+               <children>
+                  <Label text="Argument of Periapsis (Degrees)" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <Label text="Longitude of the Ascending Node (Degrees)" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="-30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <Label text="True anomaly (Degrees)" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <Label text="Insert Orbital Elements" GridPane.columnSpan="3">
+               <font>
+                  <Font name="System Bold" size="46.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+               <children>
+                  <Button fx:id="OrbitalElementsAccept" mnemonicParsing="false" text="Accept">
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+                  <Button fx:id="OrbitalElementsCancel" mnemonicParsing="false" onAction="#toggleOrbitalElements" text="Cancel">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</Pane>

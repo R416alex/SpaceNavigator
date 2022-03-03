@@ -8,3 +8,6 @@
 .bottompanel{
      -fx-background-color: #032cfc; 
   }
+.container{
+     -fx-background-color: #000000;
+}

@@ -1,10 +1,13 @@
 package main;
 
+
+import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class SimScreenControler {
@@ -23,13 +26,19 @@ public class SimScreenControler {
 	@FXML
 	private Button QuitButton;
 	
+	@FXML
+	private Button SetOrbitalElementsButton;
+	
+	@FXML
+	private GridPane OrbitalElements;
 	
 	public SimScreenControler() {
 	}
-	
+
 	@FXML
-	private void initialize() {
-		
+	private void initialize() throws IOException {
+
+        
 		StartingPlanetSelector.setItems(PlanetList);
 		StartingPlanetSelector.setValue("Earth");
 		
@@ -41,6 +50,11 @@ public class SimScreenControler {
 	private void toggleFullscreen() {
 		Stage stage = (Stage) FullScreenButton.getScene().getWindow();
 		stage.setFullScreen(!stage.isFullScreen());
+	}
+	
+	@FXML
+	private void toggleOrbitalElements() {
+		OrbitalElements.setVisible(!OrbitalElements.isVisible());
 	}
 	
 	@FXML
