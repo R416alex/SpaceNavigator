@@ -14,7 +14,7 @@ public class GraphicsManager {
 	public GraphicsManager(Stage primaryStage) throws IOException {
 		
 		FXMLLoader loader = new FXMLLoader();
-        FileInputStream fxmlStream = new FileInputStream(getClass().getResource("/simscreentest.fxml").getPath());
+        FileInputStream fxmlStream = new FileInputStream(getClass().getResource("/simscreen.fxml").getPath());
         GridPane root = (GridPane) loader.load(fxmlStream);
         primaryStage.setTitle("SpaceNavigators");
         primaryStage.setFullScreenExitHint("");
