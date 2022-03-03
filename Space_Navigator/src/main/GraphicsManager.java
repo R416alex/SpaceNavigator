@@ -1,32 +1,32 @@
 package main;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.transform.Scale;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
 
 public class GraphicsManager {
 
-
-
 	public GraphicsManager(Stage primaryStage) throws IOException {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/simscreentest.fxml"));
+		FXMLLoader loader = new FXMLLoader();
+        FileInputStream fxmlStream = new FileInputStream(getClass().getResource("/simscreentest.fxml").getPath());
+        GridPane root = (GridPane) loader.load(fxmlStream);
         primaryStage.setTitle("SpaceNavigators");
+        primaryStage.setFullScreenExitHint("");
+        
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
         
-        primaryStage.setMinHeight(primaryStage.getHeight());
-        primaryStage.setMinWidth(primaryStage.getWidth());
+        primaryStage.setMinHeight(250);
+        primaryStage.setMinWidth(250);
+        
+        primaryStage.getScene().setOnKeyPressed(e->{
+        	System.out.println("Width: " + primaryStage.getWidth() + " Height: " + primaryStage.getHeight());
+        });
 	}
 }
