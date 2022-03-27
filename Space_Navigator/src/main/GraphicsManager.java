@@ -7,12 +7,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
-
+import javafx.scene.layout.BorderPane;
 
 public class GraphicsManager {
 
@@ -39,12 +42,12 @@ public class GraphicsManager {
         scene = new Scene(root);
         scene.setFill(Color.BLACK);
         
-        SimScreenControler simscreencontroler = (SimScreenControler) loader.getController(); 
-        
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.sizeToScene();
         
+
+		
         letterbox(scene, (Pane)root);
       }
 	
