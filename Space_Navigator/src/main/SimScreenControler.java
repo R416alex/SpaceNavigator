@@ -78,8 +78,6 @@ public class SimScreenControler {
 
 	private void update() {
 		if (wdown && !sdown) {
-			worldRotX.setPivotX(worldRotY.getAngle());
-			System.out.println(worldRotX.getPivotX());
 			worldRotX.setAngle(worldRotX.getAngle() - 2);
 		}
 		if (sdown && !wdown) {
