@@ -38,8 +38,6 @@ public class Planet {
 	public double ang = 0;
 
 	public void update(long delta) {
-		// sphere.setRotationAxis(new Point3D(0,1,0));
-		// sphere.setRotate((rotationRate * (delta/16666666)) + sphere.getRotate());
 		ang = (rotationRate * (delta / 16666666));
 		Rotate r = new Rotate(ang, new javafx.geometry.Point3D(0, 1, 0));
 		sphere.getTransforms().add(r);
