@@ -1,24 +1,25 @@
 package main;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import org.fxyz3d.scene.Skybox;
 
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.AmbientLight;
 import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Box;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
+import javafx.scene.paint.PhongMaterial;
 import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
 
 public class SimScreenControler {
 
@@ -44,116 +45,19 @@ public class SimScreenControler {
 	private GridPane OrbitalElements;
 
 	@FXML
+	private BorderPane BorderPane;
+
+	@FXML
 	private SubScene subscene;
 
-	private PerspectiveCamera camera;
+	public FPSCamera camera;
+
+	private ArrayList<Planet> Planets;
+
+	private Group world;
 
 	public SimScreenControler() {
 	}
-
-	private long last = 0;
-
-	private void UpdateThread() {
-		new AnimationTimer() {
-			@Override
-			public void handle(long now) {
-				if (now - last > 1000) {
-					last = now;
-					update();
-				}
-			}
-		}.start();
-	}
-
-	private boolean wdown = false;
-	private boolean adown = false;
-	private boolean sdown = false;
-	private boolean ddown = false;
-	private boolean udown = false;
-	private boolean dndown = false;
-	private boolean ldown = false;
-	private boolean rdown = false;
-
-	private double moveSpeed = 10;
-
-	private void update() {
-		if (wdown && !sdown) {
-			worldRotX.setAngle(worldRotX.getAngle() - 2);
-		}
-		if (sdown && !wdown) {
-			worldRotX.setAngle(worldRotX.getAngle() - 2);
-		}
-		if (adown && !ddown) {
-			worldRotY.setAngle(worldRotY.getAngle() + 2);
-		}
-		if (ddown && !adown) {
-			worldRotY.setAngle(worldRotY.getAngle() - 2);
-		}
-		if (udown && !dndown) {
-			
-		}
-		if (dndown && !udown) {
-			
-		}
-		if (ldown && !rdown) {
-
-		}
-		if (rdown && !ldown) {
-
-		}
-	}
-
-	@FXML
-	private void handleKeyReleased(KeyEvent event) {
-		switch (event.getCode()) {
-		case W:
-			wdown = false;
-			break;
-		case A:
-			adown = false;
-			break;
-		case S:
-			sdown = false;
-			break;
-		case D:
-			ddown = false;
-			break;
-		default:
-			break;
-		}
-	}
-
-	@FXML
-	private void handleKeyPress(KeyEvent event) {
-
-		System.out.println(event.getCode().toString());
-		switch (event.getCode()) {
-		case W:
-			wdown = true;
-			break;
-		case A:
-			adown = true;
-			break;
-		case S:
-			sdown = true;
-			break;
-		case D:
-			ddown = true;
-			break;
-		default:
-			break;
-		}
-
-	}
-
-	private Group world;
-	private Rotate worldRotX;
-	private Rotate worldRotY;
-	private Rotate worldRotZ;
-
-	private Translate worldTransX;
-	private Translate worldTransY;
-	private Translate worldTransZ;
 
 	@FXML
 	private void initialize() throws IOException {
@@ -164,55 +68,64 @@ public class SimScreenControler {
 		DestinationPlanetSelector.setItems(PlanetList);
 		DestinationPlanetSelector.setValue("Mars");
 
-		camera = new PerspectiveCamera(true);
-		camera.setFieldOfView(100);
-		camera.setNearClip(1);
-		camera.setFarClip(10000);
+		world = new Group();
 
-		subscene.setCamera(camera);
+		subscene = new SubScene(world, 1080, 570, true, SceneAntialiasing.BALANCED);
+		BorderPane.setCenter(subscene);
 
-		Image top = new Image("images/skybox/Top.bmp");
-		Image bottom = new Image("images/skybox/Bottom.bmp");
-		Image right = new Image("images/skybox/Right.bmp");
-		Image left = new Image("images/skybox/Left.bmp");
-		Image front = new Image("images/skybox/Front.bmp");
-		Image back = new Image("images/skybox/Back.bmp");
-		Skybox skybox = new Skybox(top, bottom, left, right, front, back, 100, camera);
+		camera = new FPSCamera();
+		subscene.setCamera(camera.getCamera());
 
-		world = createEnvironment();
+		Image milkyway = new Image("images/skybox/MilkyWay.png");
+		Skybox skybox = new Skybox(milkyway, 100000, camera.getCamera());
 		world.getChildren().add(skybox);
+
+		AmbientLight light = new AmbientLight();
+		world.getChildren().add(light);
+
+		new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+
+				long delta = now - last;
+				if (delta > 16666666) {
+					update(delta);
+					last = now;
+				}
+			}
+		}.start();
+
+		Planets = new ArrayList<Planet>();
+		PhongMaterial sunmaterial = new PhongMaterial();
+		sunmaterial.setDiffuseMap(new Image("images/planets/sun.jpg"));
+		Planets.add(new Planet(500, new javafx.geometry.Point3D(750, 0, 0), 1 / 27, 7.25, sunmaterial));
+
+		PhongMaterial earthmaterial = new PhongMaterial();
+		earthmaterial.setDiffuseMap(new Image("images/planets/earth.jpg"));
+		Planets.add(new Planet(150, new javafx.geometry.Point3D(-750, 0, 0), 1, 23.44, earthmaterial));
+
+		PhongMaterial marsmaterial = new PhongMaterial();
+		marsmaterial.setDiffuseMap(new Image("images/planets/mars.jpg"));
+		Planets.add(new Planet(125, new javafx.geometry.Point3D(0, 0, 0), 1 / 1.02, 25, marsmaterial));
+
+		PhongMaterial jupitermaterial = new PhongMaterial();
+		jupitermaterial.setDiffuseMap(new Image("images/planets/jupiter.jpg"));
+		Planets.add(new Planet(300, new javafx.geometry.Point3D(0, 0, 750), 1 / .24, 3, jupitermaterial));
+
+		for (Planet p : Planets) {
+			world.getChildren().add(p.getShape());
+		}
+
 		subscene.setRoot(world);
-		worldRotX = new Rotate(0, Rotate.X_AXIS);
-		worldRotY = new Rotate(0, Rotate.Y_AXIS);
-		worldRotZ = new Rotate(0, Rotate.Z_AXIS);
-
-		worldTransX = new Translate();
-		worldTransY = new Translate();
-		worldTransZ = new Translate();
-
-		world.getTransforms().addAll(worldRotY, worldRotX, worldRotZ, worldTransX, worldTransY, worldTransZ);
-
-		UpdateThread();
 
 	}
 
-	private Group createEnvironment() {
-		Group group = new Group();
+	private long last = 0;
 
-		Box ground = new Box();
-		ground.setHeight(10);
-		ground.setWidth(1000);
-		ground.setDepth(1000);
-
-		ground.setTranslateX(-500);
-		ground.setTranslateZ(-500);
-
-		Box box = new Box(100, 100, 100);
-		box.setTranslateY(10);
-
-		group.getChildren().addAll(ground, box);
-
-		return group;
+	private void update(long delta) {
+		for (Planet p : Planets) {
+			p.update(delta);
+		}
 	}
 
 	@FXML
