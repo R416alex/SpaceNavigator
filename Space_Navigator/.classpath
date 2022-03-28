@@ -7,8 +7,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/javafx17"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="lib" path="lib/engine.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jxyz"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Fxyz"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
