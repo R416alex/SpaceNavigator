@@ -17,9 +17,11 @@ public class GraphicsManager {
 
 	private Stage primaryStage;
 	private Scene scene;
+	private Calculator calculator;
 
-	public GraphicsManager(Stage primaryStage) throws IOException {
+	public GraphicsManager(Stage primaryStage, Calculator calculator) throws IOException {
 		this.primaryStage = primaryStage;
+		this.calculator = calculator;
 		initialize();
 
 	}
@@ -31,6 +33,8 @@ public class GraphicsManager {
 		Parent root = loader.load(fxmlStream);
 
 		SimScreenControler controller = loader.getController();
+		
+		//controller.caclulator = calculator;
 
 		primaryStage.setTitle("SpaceNavigators");
 		primaryStage.setFullScreenExitHint("");

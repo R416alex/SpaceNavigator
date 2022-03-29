@@ -55,6 +55,8 @@ public class SimScreenControler {
 	private ArrayList<Planet> Planets;
 
 	private Group world;
+	
+	public Calculator calculator;
 
 	public SimScreenControler() {
 	}
