@@ -20,10 +20,10 @@ public class Calculator {
 		engine = null;
 		}
 	
-	public Point3D PlanetPosition(int planet_id, int year, int month, int day, int hour, int minute, int second) throws Exception {
+	public Point3D PlanetPosition(double planet_id, int year, int month, int day, int hour, int minute, int second) throws Exception {
 		
 		
-		engine.eval("cd(\\res\\MATLAB");
+		
 		ans1 = engine.feval(4, "planet_oe_and_sv", planet_id, year, month, day, hour, minute, second);
 		OE = (double[]) ans1[0];
 		R = (double[]) ans1[1];
@@ -36,6 +36,7 @@ public class Calculator {
 	
 	public void initializeMATLAB() throws Exception {
 		engine = MatlabEngine.startMatlab();
+		engine.eval("cd 'res/MATLAB' ");
 		
 	}
 	

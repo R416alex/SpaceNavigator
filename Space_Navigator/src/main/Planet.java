@@ -19,9 +19,12 @@ public class Planet {
 
 	public double rotationRate;
 	public double rotationAngle;
+	
+	public int id;
 
-	public Planet(double size, Point3D location, double rotationRate, double rotationAngle, PhongMaterial material) {
+	public Planet(double size, Point3D location, double rotationRate, double rotationAngle, PhongMaterial material, int id) {
 
+		this.id = id;
 		sphere = new Sphere(size);
 		sphere.setTranslateX(location.getX());
 		sphere.setTranslateY(location.getY());
@@ -45,6 +48,15 @@ public class Planet {
 
 	public Sphere getShape() {
 		return sphere;
+	}
+	
+	public void setLocation(Point3D loc) {
+		location = loc;
+	}
+
+	public int getId() {
+		// TODO Auto-generated method stub
+		return id;
 	}
 
 }

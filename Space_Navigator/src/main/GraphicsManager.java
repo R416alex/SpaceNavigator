@@ -3,6 +3,8 @@ package main;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import com.sun.javafx.geom.Vec2d;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +36,7 @@ public class GraphicsManager {
 
 		SimScreenControler controller = loader.getController();
 		
-		//controller.caclulator = calculator;
+		controller.setCalculator(calculator);
 
 		primaryStage.setTitle("SpaceNavigators");
 		primaryStage.setFullScreenExitHint("");
@@ -47,6 +49,12 @@ public class GraphicsManager {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.sizeToScene();
+		
+		try {
+			calculator.initializeMATLAB();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		letterbox(scene, (Pane) root);
 	}
