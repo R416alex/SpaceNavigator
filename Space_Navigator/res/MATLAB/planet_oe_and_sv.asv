@@ -1,5 +1,5 @@
 function [oe, r, v, jd] = planet_oe_and_sv ...
-(planet_id, year, month, day, hour, minute, second, option)
+(planet_id, year, month, day, hour, minute, second)
 %   This function computes the orbital elements, the state vector, the velocity
 %   and the julien day for a planet. 
 %   Based on Algorithm 8.1 from Orbital mechanics for engineering students,
@@ -44,11 +44,8 @@ function [oe, r, v, jd] = planet_oe_and_sv ...
 %                  elements - orbital elements at jd
 
 %% Constants
-if option == 1
-global mu
-else
-    mu = 1.327124e11;
-end
+%global mu
+mu = 1.327124e11;
 deg = pi/180;
 
 %% Calculate julian day at 0 hr and universal time
