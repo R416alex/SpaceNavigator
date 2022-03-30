@@ -169,7 +169,7 @@ public class SimScreenControler {
 		LocalDate date = datePicker.getValue();
 		
 		try {
-			Planets.get(2).setLocation(calculator.PlanetPosition(2, date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,1,1));
+			Planets.get(2).setLocation(calculator.PlanetPosition(2, date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,1,1, 2));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

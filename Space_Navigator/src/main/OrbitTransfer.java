@@ -14,6 +14,7 @@ public class OrbitTransfer {
 	private double year, month, day, hour, minute, second;
 	private double V1, V2;
 	
+	
         public void HohmanTansfer (String planet1, String date1, String time1, String planet2, String date2, String time2 ) throws Exception{
         	
         	
