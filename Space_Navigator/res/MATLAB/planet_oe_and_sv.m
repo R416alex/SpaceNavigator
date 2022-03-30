@@ -64,11 +64,7 @@ el = J2000_oe + rates*t0;
 a = el(1);
 e = el(2);
 h = sqrt(mu*a*(1 - e^2));
-disp(a)
-disp('wut')
-disp(h)
-disp('wut')
-disp(e)
+
 %% Reduce the angular elements within the range 0 - 360 degrees:
 inclination = el(3);
 RA = wrapTo360(el(4));

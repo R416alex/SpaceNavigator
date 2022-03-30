@@ -28,13 +28,22 @@ public class Calculator {
 	private double second1, second2;
 	private double altitude = 600;
 	//Transfer Algorithm Outputs
-	private Object[] output = new Object[8];
+	private Object[] output = new Object[9];
 	private double[] R1 = new double[3];
 	private double[] R2 = new double[3];
+	private double[] Rspacecraft = new double[3];
+	
+	private double[] V1 = new double[3];
+	private double[] V2 = new double[3];
+	private double[] Vsc1 = new double[3];
+	private double[] Vsc2 = new double[3];
+	
+	private double tof;
+	private double totalDeltaV;
 	
 	ArrayList<Point3D> stateVectors = new ArrayList<Point3D>();
-	
 	MatlabEngine engine;
+	
 	public Calculator() {
 		engine = null;
 		}
@@ -74,12 +83,22 @@ public class Calculator {
 		second1 = startPlanet[6];
 		second2 = endPlanet[6];
 		
-		output = engine.feval(8,"TestAlg", planetid1, year1, month1, day1, hour1, minute1, second1, altitude, planetid2, year2, month2, day2, hour2, minute2, second2, altitude);
+		output = engine.feval(9,"TestAlg", planetid1, year1, month1, day1, hour1, minute1, second1, altitude, planetid2, year2, month2, day2, hour2, minute2, second2, altitude);
 		R1 = (double[]) output[0];
 		R2 = (double[]) output[3];
 		stateVectors.add(new Point3D(R1[0], R1[1], R1[2]));
 		stateVectors.add(new Point3D(R2[0], R2[1], R2[2]));
 		
+		V1 = (double[]) output[1];
+		V2 = (double[]) output[4];
+		
+		Vsc1 = (double[]) output[2];
+		Vsc2 = (double[]) output[5];
+		
+		tof = (double) output[6];
+		totalDeltaV = (double) output[7];
+		
+		Rspacecraft = (double[]) output[9];
 		
 		return stateVectors;
 		}
@@ -124,6 +143,15 @@ public class Calculator {
 
 	public double getPlanetid1() {
 		return planetid1;
+	}
+	
+
+	public double getTotalDeltaV() {
+		return totalDeltaV;
+	}
+
+	public void setTotalDeltaV(double totalDeltaV) {
+		this.totalDeltaV = totalDeltaV;
 	}
 
 	public void setPlanetid1(double planetid1) {
@@ -232,6 +260,46 @@ public class Calculator {
 
 	public void setSecond2(double second2) {
 		this.second2 = second2;
+	}
+
+	public double getTof() {
+		return tof;
+	}
+
+	public void setTof(double tof) {
+		this.tof = tof;
+	}
+
+	public double[] getV1() {
+		return V1;
+	}
+
+	public void setV1(double[] v1) {
+		V1 = v1;
+	}
+
+	public double[] getV2() {
+		return V2;
+	}
+
+	public void setV2(double[] v2) {
+		V2 = v2;
+	}
+
+	public double[] getVsc1() {
+		return Vsc1;
+	}
+
+	public void setVsc1(double[] vsc1) {
+		Vsc1 = vsc1;
+	}
+
+	public double[] getVsc2() {
+		return Vsc2;
+	}
+
+	public void setVsc2(double[] vsc2) {
+		Vsc2 = vsc2;
 	}
 	
 	

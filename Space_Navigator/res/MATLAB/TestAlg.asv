@@ -1,4 +1,4 @@
-function [R1, Vp1, V1, R2, Vp2, V2, tof, delta_v_total, Rspacecraft] = TestAlg(planet_id1, year1, month1, day1, hour1, min1, sec1, a_parking, planet_id2, year2, month2, day2, hour2, min2, sec2, r_capture)
+function [R1, Vp1, V1, R2, Vp2, V2, tof, delta_v_total] = TestAlg(planet_id1, year1, month1, day1, hour1, min1, sec1, a_parking, planet_id2, year2, month2, day2, hour2, min2, sec2, r_capture)
 %This algorithm utilizes the interplanetary mission design program
 
 global mu
@@ -129,7 +129,7 @@ else
     a = floor(oe3(6)/deg - oe(6)/deg);
 end
 
-Rspacecraft = [rxc, ryc, rzc];
+Rspacecraft = [rxc(1:a)/au, ryc(1:a)/au, rzc(1:a)/au];
 
 % %Error message in case of absurd choices for departure and arrival times
 % if delta_v_departure > 60 || delta_v_arrival > 60 || tof < 0
