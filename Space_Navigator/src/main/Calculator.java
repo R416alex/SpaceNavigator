@@ -20,7 +20,7 @@ public class Calculator {
 		engine = null;
 		}
 	
-	public Point3D PlanetPosition(double planet_id, int year, int month, int day, int hour, int minute, int second) throws Exception {
+	public Point3D PlanetPosition(double planet_id, double year, double month, double day, double hour, double minute, double second) throws Exception {
 		
 		
 		

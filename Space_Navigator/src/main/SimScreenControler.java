@@ -167,16 +167,23 @@ public class SimScreenControler {
 	@FXML
 	private void getPlanetPos() {
 		LocalDate date = datePicker.getValue();
-		for(Planet p: Planets) {
-			if(p.getId() != 0) {
-			try {
-				p.setLocation(calculator.PlanetPosition(p.getId(), date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,1,1));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			}
+		
+		try {
+			Planets.get(2).setLocation(calculator.PlanetPosition(2, date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,1,1));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+//		for(Planet p: Planets) {
+//			if(p.getId() != 0) {
+//			try {
+//				p.setLocation(calculator.PlanetPosition(p.getId(), date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,1,1));
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			}
+//		}
 	}
 
 	@FXML
