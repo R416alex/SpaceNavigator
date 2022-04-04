@@ -26,7 +26,7 @@ public class Calculator {
 	private double hour1, hour2;
 	private double minute1, minute2;
 	private double second1, second2;
-	private double altitude = 600;
+	private double altitude;
 	//Transfer Algorithm Outputs
 	private Object[] output = new Object[9];
 	private double[] R1 = new double[3];
