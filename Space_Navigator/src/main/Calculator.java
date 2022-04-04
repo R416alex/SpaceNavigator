@@ -301,6 +301,15 @@ public class Calculator {
 	public void setVsc2(double[] vsc2) {
 		Vsc2 = vsc2;
 	}
+
+	public double[] getRspacecraft() {
+		return Rspacecraft;
+	}
+
+	public void setRspacecraft(double[] rspacecraft) {
+		Rspacecraft = rspacecraft;
+	}
+	
 	
 	
 }
