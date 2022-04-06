@@ -5,8 +5,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.fxyz3d.geometry.Point3D;
 import org.fxyz3d.scene.Skybox;
+import org.fxyz3d.shapes.composites.PolyLine3D;
+import org.fxyz3d.shapes.composites.PolyLine3D.LineType;
+
+import com.sun.prism.paint.Color;
 
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
@@ -96,6 +102,57 @@ public class SimScreenControler {
 		AmbientLight light = new AmbientLight();
 		world.getChildren().add(light);
 
+		
+		
+
+		 
+		Planets = new ArrayList<Planet>();
+		PhongMaterial sunmaterial = new PhongMaterial();
+		sunmaterial.setDiffuseMap(new Image("images/planets/sun.jpg"));
+		Planets.add(new Planet(750, new Point3D(0, 0, 0), 1/27, 7.25, sunmaterial, 0));
+
+		PhongMaterial mercurymaterial = new PhongMaterial();
+		mercurymaterial.setDiffuseMap(new Image("images/planets/mercury.jpg"));
+		Planets.add(new Planet(75, new Point3D(750* 2, 0, 0), 1 / .24, 3, mercurymaterial,1));
+		
+		PhongMaterial venusmaterial = new PhongMaterial();
+		venusmaterial.setDiffuseMap(new Image("images/planets/venus.jpg"));
+		Planets.add(new Planet(150, new Point3D(750* 1, 0, 0), 1 / .24, 3, venusmaterial,2));
+		
+		PhongMaterial earthmaterial = new PhongMaterial();
+		earthmaterial.setDiffuseMap(new Image("images/planets/earth.jpg"));
+		Planets.add(new Planet(160, new Point3D(0, 0, 0), 1, 23.44, earthmaterial,3));
+
+		PhongMaterial marsmaterial = new PhongMaterial();
+		marsmaterial.setDiffuseMap(new Image("images/planets/mars.jpg"));
+		Planets.add(new Planet(155, new Point3D(-750* 1, 0, 0), 1 / 1.02, 25, marsmaterial,4));
+
+		PhongMaterial jupitermaterial = new PhongMaterial();
+		jupitermaterial.setDiffuseMap(new Image("images/planets/jupiter.jpg"));
+		Planets.add(new Planet(500, new Point3D(-750* 2, 0, 0), 1 / .24, 3, jupitermaterial,5));
+
+		PhongMaterial saturnmaterial = new PhongMaterial();
+		saturnmaterial.setDiffuseMap(new Image("images/planets/saturn.jpg"));
+		Planets.add(new Planet(450, new Point3D(-750* 3, 0, 0), 1 / .24, 3, saturnmaterial,6));
+		
+		PhongMaterial uranusmaterial = new PhongMaterial();
+		uranusmaterial.setDiffuseMap(new Image("images/planets/uranus.jpg"));
+		Planets.add(new Planet(300, new Point3D(-750* 4, 0, 0), 1 / .24, 3, uranusmaterial,7));
+
+		PhongMaterial neptunematerial = new PhongMaterial();
+		neptunematerial.setDiffuseMap(new Image("images/planets/neptune.jpg"));
+		Planets.add(new Planet(350, new Point3D(-750* 5, 0, 0), 1 / .24, 3, neptunematerial,8));
+		
+		for (Planet p : Planets) {
+			world.getChildren().add(p.getShape());
+		}
+
+		subscene.setRoot(world);
+		datePicker.setValue(LocalDate.now());
+		datePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
+            getPlanetPos();
+        });
+	
 		new AnimationTimer() {
 			@Override
 			public void handle(long now) {
@@ -107,53 +164,6 @@ public class SimScreenControler {
 				}
 			}
 		}.start();
-
-		 datePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
-	            getPlanetPos();
-	        });
-		Planets = new ArrayList<Planet>();
-		PhongMaterial sunmaterial = new PhongMaterial();
-		sunmaterial.setDiffuseMap(new Image("images/planets/sun.jpg"));
-		Planets.add(new Planet(750, new javafx.geometry.Point3D(750* 3, 0, 0), 1/27, 7.25, sunmaterial, 0));
-
-		PhongMaterial mercurymaterial = new PhongMaterial();
-		mercurymaterial.setDiffuseMap(new Image("images/planets/mercury.jpg"));
-		Planets.add(new Planet(75, new javafx.geometry.Point3D(750* 2, 0, 0), 1 / .24, 3, mercurymaterial,1));
-		
-		PhongMaterial venusmaterial = new PhongMaterial();
-		venusmaterial.setDiffuseMap(new Image("images/planets/venus.jpg"));
-		Planets.add(new Planet(150, new javafx.geometry.Point3D(750* 1, 0, 0), 1 / .24, 3, venusmaterial,2));
-		
-		PhongMaterial earthmaterial = new PhongMaterial();
-		earthmaterial.setDiffuseMap(new Image("images/planets/earth.jpg"));
-		Planets.add(new Planet(160, new javafx.geometry.Point3D(0, 0, 0), 1, 23.44, earthmaterial,3));
-
-		PhongMaterial marsmaterial = new PhongMaterial();
-		marsmaterial.setDiffuseMap(new Image("images/planets/mars.jpg"));
-		Planets.add(new Planet(155, new javafx.geometry.Point3D(-750* 1, 0, 0), 1 / 1.02, 25, marsmaterial,4));
-
-		PhongMaterial jupitermaterial = new PhongMaterial();
-		jupitermaterial.setDiffuseMap(new Image("images/planets/jupiter.jpg"));
-		Planets.add(new Planet(500, new javafx.geometry.Point3D(-750* 2, 0, 0), 1 / .24, 3, jupitermaterial,5));
-
-		PhongMaterial saturnmaterial = new PhongMaterial();
-		saturnmaterial.setDiffuseMap(new Image("images/planets/saturn.jpg"));
-		Planets.add(new Planet(450, new javafx.geometry.Point3D(-750* 3, 0, 0), 1 / .24, 3, saturnmaterial,6));
-		
-		PhongMaterial uranusmaterial = new PhongMaterial();
-		uranusmaterial.setDiffuseMap(new Image("images/planets/uranus.jpg"));
-		Planets.add(new Planet(300, new javafx.geometry.Point3D(-750* 4, 0, 0), 1 / .24, 3, uranusmaterial,7));
-
-		PhongMaterial neptunematerial = new PhongMaterial();
-		neptunematerial.setDiffuseMap(new Image("images/planets/neptune.jpg"));
-		Planets.add(new Planet(350, new javafx.geometry.Point3D(-750* 5, 0, 0), 1 / .24, 3, neptunematerial,8));
-		
-		for (Planet p : Planets) {
-			world.getChildren().add(p.getShape());
-		}
-
-		subscene.setRoot(world);
-
 	}
 
 	private long last = 0;
@@ -168,22 +178,44 @@ public class SimScreenControler {
 	private void getPlanetPos() {
 		LocalDate date = datePicker.getValue();
 		
+		for(Planet p: Planets) {
+			if(p.getId() != 0 && calculator.engine != null) {
+			try {
+				System.out.println();
+				p.setLocation(calculator.PlanetPosition(p.getId(), date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,1,1, 0));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
+		}
+	}
+	
+	@FXML
+	private void calculate() {
+		double planetid1 = 2;
+		double planetid2 = 4;
+		double year1 = 2022;
+		double year2 = 2022;
+		double month1 = 0;
+		double month2 = 0;
+		double day1 = 0;
+		double day2 = 0;
+		double hour1 =0;
+		double hour2 =0;
+		double minute1 = 0;
+		double minute2 = 0;
+		double second1 = 0;
+		double second2 = 0;
+		double altitude1 = 10000;
+		double altitude2 = 10000;
 		try {
-			Planets.get(2).setLocation(calculator.PlanetPosition(2, date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,0,0, 2));
+			PolyLine3D trajectory = new PolyLine3D(calculator.Trajectory(planetid1,planetid2, year1, year2,month1,month2, day1, day2, hour1,hour2, minute1,minute2, second1, second2,  altitude1,altitude2), 10f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
+			world.getChildren().add(trajectory);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		for(Planet p: Planets) {
-//			if(p.getId() != 0) {
-//			try {
-//				p.setLocation(calculator.PlanetPosition(p.getId(), date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,1,1));
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			}
-//		}
 	}
 
 	@FXML

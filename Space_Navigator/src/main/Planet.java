@@ -2,10 +2,11 @@ package main;
 
 import org.fxyz3d.scene.Axes;
 
-import javafx.geometry.Point3D;
+import org.fxyz3d.geometry.Point3D;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 
 public class Planet {
 
@@ -29,11 +30,12 @@ public class Planet {
 		sphere.setTranslateX(location.getX());
 		sphere.setTranslateY(location.getY());
 		sphere.setTranslateZ(location.getZ());
-		sphere.setRotationAxis(new Point3D(0, 0, 1));
+		sphere.setRotationAxis(new javafx.geometry.Point3D(0, 0, 1));
 		sphere.setRotate(rotationAngle);
 		this.rotationRate = rotationRate;
 		this.rotationAngle = rotationAngle;
 		this.material = material;
+		this.location = location;
 		sphere.setMaterial(material);
 
 	}
@@ -50,8 +52,13 @@ public class Planet {
 		return sphere;
 	}
 	
-	public void setLocation(Point3D loc) {
-		location = loc;
+	private int scale = 50000;
+	
+	public void setLocation(Point3D point3d) {
+		location = point3d;
+		sphere.setTranslateX(location.getX()/scale);
+		sphere.setTranslateY(location.getZ()/scale);
+		sphere.setTranslateZ(location.getY()/scale);
 	}
 
 	public int getId() {

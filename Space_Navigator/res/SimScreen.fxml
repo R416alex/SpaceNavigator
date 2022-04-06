@@ -32,6 +32,7 @@
               </rowConstraints>
                <children>
                   <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quit" text="Quit" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="calculateButton" mnemonicParsing="false" onAction="#calculate" text="Calculate" />
                   <Button fx:id="FullScreenButton" mnemonicParsing="false" onAction="#toggleFullscreen" text="Toggle Full Screen" GridPane.columnIndex="1" />
                </children>
             </GridPane>
@@ -63,7 +64,7 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="datePicker" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="datePicker" onAction="#getPlanetPos" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                   <Button fx:id="SetOrbitalElementsButton" mnemonicParsing="false" onAction="#toggleOrbitalElements" text="Set Orbital Elements" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                      <font>
                         <Font size="14.0" />
