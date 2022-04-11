@@ -133,6 +133,7 @@ end
 rxc = rxc(1:a);
 ryc = ryc(1:a);
 rzc = rzc(1:a);
+rate = tof/360;
 
 Rspacecraft = [rxc, ryc, rzc];
 
