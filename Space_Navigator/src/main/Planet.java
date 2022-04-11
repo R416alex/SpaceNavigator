@@ -2,6 +2,9 @@ package main;
 
 import org.fxyz3d.scene.Axes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.fxyz3d.geometry.Point3D;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
@@ -20,6 +23,8 @@ public class Planet {
 
 	public double rotationRate;
 	public double rotationAngle;
+	
+	public ArrayList<Point3D> Path;
 	
 	public int id;
 
@@ -42,10 +47,13 @@ public class Planet {
 
 	public double ang = 0;
 
-	public void update(long delta) {
-		ang = (rotationRate * (delta / 16666666));
-		Rotate r = new Rotate(ang, new javafx.geometry.Point3D(0, 1, 0));
-		sphere.getTransforms().add(r);
+	public void update(int step) {
+		if(Path != null) {
+		setLocation(Path.get(step));
+		}
+//		ang = (rotationRate * (delta / 16666666));
+//		Rotate r = new Rotate(ang, new javafx.geometry.Point3D(0, 1, 0));
+//		sphere.getTransforms().add(r);
 	}
 
 	public Sphere getShape() {
@@ -64,6 +72,11 @@ public class Planet {
 	public int getId() {
 		// TODO Auto-generated method stub
 		return id;
+	}
+
+	public void setPath(ArrayList<Point3D> list) {
+		Path = list;
+		
 	}
 
 }

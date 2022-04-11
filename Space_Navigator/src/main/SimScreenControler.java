@@ -61,7 +61,10 @@ public class SimScreenControler {
 	private SubScene subscene;
 	
 	@FXML
-	private DatePicker datePicker;
+	private DatePicker startDatePicker;
+	
+	@FXML
+	private DatePicker endDatePicker;
 
 	public FPSCamera camera;
 
@@ -71,6 +74,8 @@ public class SimScreenControler {
 	
 	public Calculator calculator;
 
+	private boolean calculate = false;
+	
 	public SimScreenControler() {
 	}
 	
@@ -148,8 +153,8 @@ public class SimScreenControler {
 		}
 
 		subscene.setRoot(world);
-		datePicker.setValue(LocalDate.now());
-		datePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
+		startDatePicker.setValue(LocalDate.now());
+		startDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
             getPlanetPos();
         });
 	
@@ -159,6 +164,7 @@ public class SimScreenControler {
 
 				long delta = now - last;
 				if (delta > 16666666) {
+					if(calculate)
 					update(delta);
 					last = now;
 				}
@@ -167,20 +173,20 @@ public class SimScreenControler {
 	}
 
 	private long last = 0;
+	
+	private int step = 0;
 
-	private boolean calculate = false;
+
 	private void update(long delta) {
 		for (Planet p : Planets) {
-			p.update(delta);
-			if(calculate) {
-				datePicker.setValue(datePicker.getValue().plusDays(1));
-			}
+			p.update(step);
+			step++;
 		}
 	}
 	
 	@FXML
 	private void getPlanetPos() {
-		LocalDate date = datePicker.getValue();
+		LocalDate date = startDatePicker.getValue();
 		
 		for(Planet p: Planets) {
 			if(p.getId() != 0 && calculator.engine != null) {
@@ -188,7 +194,6 @@ public class SimScreenControler {
 				System.out.println();
 				p.setLocation(calculator.PlanetPosition(p.getId(), date.getYear(), date.getMonthValue(),date.getDayOfMonth(),1,1,1, 0));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			}
@@ -199,12 +204,12 @@ public class SimScreenControler {
 	private void calculate() {
 		double planetid1 =2;
 		double planetid2 = 4;
-		double year1 = 2022;;
-		double year2 = 2024;
-		double month1 = 1;
-		double month2 = 11;
-		double day1 = 1;
-		double day2 = 2;
+		double year1 = startDatePicker.getValue().getYear();
+		double year2 = endDatePicker.getValue().getYear();
+		double month1 = startDatePicker.getValue().getMonthValue();
+		double month2 = endDatePicker.getValue().getMonthValue();
+		double day1 = startDatePicker.getValue().getDayOfMonth();
+		double day2 = endDatePicker.getValue().getDayOfMonth();
 		double hour1 =1;
 		double hour2 =1;
 		double minute1 = 1;
@@ -213,13 +218,24 @@ public class SimScreenControler {
 		double second2 = 1;
 		double altitude1 = 600;
 		double altitude2 = 600;
-	//    calculate = true;
+		boolean calculate = false;
 		try {
+			ArrayList<Point3D>[] planetPaths = new ArrayList[8];
+			planetPaths[0] = calculator.planetPath(1, startDatePicker.getValue(), endDatePicker.getValue());
+			planetPaths[1] = calculator.planetPath(2, startDatePicker.getValue(), endDatePicker.getValue());
+			planetPaths[2] = calculator.planetPath(3, startDatePicker.getValue(), endDatePicker.getValue());
+			planetPaths[3] = calculator.planetPath(4, startDatePicker.getValue(), endDatePicker.getValue());
+			planetPaths[4] = calculator.planetPath(5, startDatePicker.getValue(), endDatePicker.getValue());
+			planetPaths[5] = calculator.planetPath(6, startDatePicker.getValue(), endDatePicker.getValue());
+			planetPaths[6] = calculator.planetPath(7, startDatePicker.getValue(), endDatePicker.getValue());
+			planetPaths[7] = calculator.planetPath(8, startDatePicker.getValue(), endDatePicker.getValue());
+			for(int i = 0; i < planetPaths.length; i++) {
+				Planets.get(i+1).setPath(planetPaths[i]);
+			}
 			List<Point3D> points = calculator.Trajectory(planetid1,planetid2, year1, year2,month1,month2, day1, day2, hour1,hour2, minute1,minute2, second1, second2,  altitude1,altitude2, 1);
 			PolyLine3D trajectory = new PolyLine3D(points, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
 			world.getChildren().add(trajectory);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
