@@ -74,10 +74,28 @@ public List<Point3D> Trajectory(double planetid1,double planetid2,double year1,d
 //		
 		double[][] Rspacecraft = (double[][]) output[8];
 		List<Point3D> stateVectors = new ArrayList<Point3D>();
+<<<<<<< Upstream, based on origin/master
 		for (double[] d : Rspacecraft) {
 			stateVectors.add(new Point3D(d[0]/50000,d[2]/50000,d[1]/50000));
 		//	System.out.println(stateVectors.get(stateVectors.size()));
 		}
+=======
+		stateVectors.add(new Point3D(R1[0], R1[1], R1[2]));
+		stateVectors.add(new Point3D(R2[0], R2[1], R2[2]));
+		
+		double[] V1 = (double[]) output[1];
+		double[] V2 = (double[]) output[4];
+		
+		double[] Vsc1 = (double[]) output[2];
+		double[] Vsc2 = (double[]) output[5];
+		
+		double tof = (double) output[6];
+		double totalDeltaV = (double) output[7];
+		
+		double[][] Rspacecraft = (double[][]) output[9];
+		
+		
+>>>>>>> 8f13741 Test Alg should show trajectory to end planet
 		return stateVectors;
 		}
 	
