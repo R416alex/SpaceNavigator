@@ -123,6 +123,7 @@ for i = 1:360
     n = n+1;
 end
 
+
 if oe(6) > oe3(6)
     a = (floor(oe3(6)/deg)+(360-floor(oe(6)/deg)));
 else
