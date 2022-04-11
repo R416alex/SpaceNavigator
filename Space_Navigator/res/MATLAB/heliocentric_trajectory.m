@@ -35,7 +35,7 @@ min = departure(6);
 sec = departure(7);
 %State vector of planet 1
 [~, R_p1, V_p1, jd1] = planet_oe_and_sv ...
-(planet_id, year, month, day, hour, min, sec);
+(planet_id, year, month, day, hour, min, sec, 1);
 
 %% Arrival 
 planet_id = arrival(1);
@@ -47,7 +47,7 @@ min = arrival(6);
 sec = arrival(7);
 %State vector of planet 2
 [~, R_p2, V_p2, jd2] = planet_oe_and_sv ...
-(planet_id, year, month, day, hour, min, sec);
+(planet_id, year, month, day, hour, min, sec,1);
 time_of_flight = (jd2 - jd1)*24*3600;
 
 %% The assumption of patched conics

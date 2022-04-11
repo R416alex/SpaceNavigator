@@ -3,6 +3,7 @@ function [R1, Vp1, V1, R2, Vp2, V2, tof, delta_v_total, Rspacecraft] = TestAlg(p
 
 global mu
 mu = 1.327124e11;
+deg = 180/pi;
 
 
 %% CALCULATION OF MISSION PARAMETERS
@@ -14,14 +15,14 @@ arrival = [planet_id2, year2, month2, day2, hour2, min2, sec2];
 
 %Obtain orbital elements and planets' state vectors 
 [oe1, r1, v1, ~] = planet_oe_and_sv(planet_id1, year1, month1,...
-    day1, hour1, min1, sec1);
+    day1, hour1, min1, sec1, 1);
 [oe2, r2, v2, ~] = planet_oe_and_sv(planet_id2, year2, month2,...
-    day2, hour2, min2, sec2);
+    day2, hour2, min2, sec2,1);
 
 [oe1_prime, r1_prime, v1_prime, jd1_prime] = planet_oe_and_sv(planet_id1,...
-    year2, month2, day2, hour2, min2, sec2);
+    year2, month2, day2, hour2, min2, sec2,1);
 [oe2_prime, r2_prime, v2_prime, jd2_prime] = planet_oe_and_sv(planet_id2,...
-    year1, month1, day1, hour1, min1, sec1);
+    year1, month1, day1, hour1, min1, sec1,1);
 
 %...Interplanetary trajectory
 [planet1, planet2, trajectory] = heliocentric_trajectory(departure, arrival);

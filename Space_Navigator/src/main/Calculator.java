@@ -105,26 +105,30 @@ public class Calculator {
 //		}
 	
 	
-public List<Point3D> Trajectory(double planetid1,double planetid2,double year1,double year2,double month1,double month2,double day1,double day2,double hour1, double hour2, double minute1,double minute2,double second1,double second2, double altitude1, double altitude2) throws Exception {
+public List<Point3D> Trajectory(double planetid1,double planetid2,double year1,double year2,double month1,double month2,double day1,double day2,double hour1, double hour2, double minute1,double minute2,double second1,double second2, double altitude1, double altitude2, int option) throws Exception {
 		
 		Object[] output = engine.feval(9,"TestAlg", planetid1, year1, month1, day1, hour1, minute1, second1, altitude1, planetid2, year2, month2, day2, hour2, minute2, second2, altitude2);
-		double[] R1 = (double[]) output[0];
-		double[] R2 = (double[]) output[3];
+	//	double[] R1 = (double[]) output[0];
+	//	double[] R2 = (double[]) output[3];
+	//	List<Point3D> stateVectors = new ArrayList<Point3D>();
+	//	stateVectors.add(new Point3D(-R1[1]/50000, R1[2]/50000, R1[0]/50000));
+//		stateVectors.add(new Point3D(-R2[1]/50000, R2[2]/50000, R2[0]/50000));
+//		
+//		double[] V1 = (double[]) output[1];
+//		double[] V2 = (double[]) output[4];
+//		
+//		double[] Vsc1 = (double[]) output[2];
+//		double[] Vsc2 = (double[]) output[5];
+//		
+//		double tof = (double) output[6];
+//		double totalDeltaV = (double) output[7];
+//		
+		double[][] Rspacecraft = (double[][]) output[8];
 		List<Point3D> stateVectors = new ArrayList<Point3D>();
-		stateVectors.add(new Point3D(R1[0], R1[1], R1[2]));
-		stateVectors.add(new Point3D(R2[0], R2[1], R2[2]));
-		
-		double[] V1 = (double[]) output[1];
-		double[] V2 = (double[]) output[4];
-		
-		double[] Vsc1 = (double[]) output[2];
-		double[] Vsc2 = (double[]) output[5];
-		
-		double tof = (double) output[6];
-		double totalDeltaV = (double) output[7];
-		
-		double[] Rspacecraft = (double[]) output[9];
-		
+		for (double[] d : Rspacecraft) {
+			stateVectors.add(new Point3D(d[0]/50000,d[2]/50000,d[1]/50000));
+		//	System.out.println(stateVectors.get(stateVectors.size()));
+		}
 		return stateVectors;
 		}
 	

@@ -168,9 +168,13 @@ public class SimScreenControler {
 
 	private long last = 0;
 
+	private boolean calculate = false;
 	private void update(long delta) {
 		for (Planet p : Planets) {
 			p.update(delta);
+			if(calculate) {
+				datePicker.setValue(datePicker.getValue().plusDays(1));
+			}
 		}
 	}
 	
@@ -193,24 +197,26 @@ public class SimScreenControler {
 	
 	@FXML
 	private void calculate() {
-		double planetid1 = 2;
+		double planetid1 =2;
 		double planetid2 = 4;
-		double year1 = 2022;
-		double year2 = 2022;
-		double month1 = 0;
-		double month2 = 0;
-		double day1 = 0;
-		double day2 = 0;
-		double hour1 =0;
-		double hour2 =0;
-		double minute1 = 0;
-		double minute2 = 0;
-		double second1 = 0;
-		double second2 = 0;
-		double altitude1 = 10000;
-		double altitude2 = 10000;
+		double year1 = 2022;;
+		double year2 = 2024;
+		double month1 = 1;
+		double month2 = 11;
+		double day1 = 1;
+		double day2 = 2;
+		double hour1 =1;
+		double hour2 =1;
+		double minute1 = 1;
+		double minute2 = 1;
+		double second1 = 1;
+		double second2 = 1;
+		double altitude1 = 600;
+		double altitude2 = 600;
+	//    calculate = true;
 		try {
-			PolyLine3D trajectory = new PolyLine3D(calculator.Trajectory(planetid1,planetid2, year1, year2,month1,month2, day1, day2, hour1,hour2, minute1,minute2, second1, second2,  altitude1,altitude2), 10f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
+			List<Point3D> points = calculator.Trajectory(planetid1,planetid2, year1, year2,month1,month2, day1, day2, hour1,hour2, minute1,minute2, second1, second2,  altitude1,altitude2, 1);
+			PolyLine3D trajectory = new PolyLine3D(points, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
 			world.getChildren().add(trajectory);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
