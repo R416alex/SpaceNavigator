@@ -67,7 +67,7 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="endDatePicker" onAction="#getPlanetPos" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="endDatePicker" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
                   <Button fx:id="SetOrbitalElementsButton" mnemonicParsing="false" onAction="#toggleOrbitalElements" text="Set Orbital Elements" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
                      <font>
                         <Font size="14.0" />

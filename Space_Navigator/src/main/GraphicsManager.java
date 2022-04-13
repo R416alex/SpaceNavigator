@@ -34,7 +34,7 @@ public class GraphicsManager {
 
 		Parent root = loader.load(fxmlStream);
 
-		SimScreenControler controller = loader.getController();
+		SimScreenController controller = loader.getController();
 		
 		controller.setCalculator(calculator);
 
