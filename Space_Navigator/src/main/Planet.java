@@ -78,5 +78,8 @@ public class Planet {
 		Path = list;
 		
 	}
+	public int getPathLength() {
+		return Path.size();
+	}
 
 }

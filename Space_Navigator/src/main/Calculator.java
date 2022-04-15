@@ -28,12 +28,18 @@ public class Calculator {
 		double[] date2 = {end.getYear(), end.getMonthValue(), end.getDayOfMonth(),0,0,0};
 		if(engine != null) {
 			try {
-//				Object[] ans1 = engine.feval(1, "planetPOS", planet_id, date1, date2);
-//				double[] A = (double[]) ans1[0];
-//				
-//				Point3D point = new Point3D(A[0],A[1],A[2]);
+				Object[] ans1 = engine.feval(1, "planetPOS", planet_id, date1, date2);
+				
+				ArrayList<Point3D> path = new ArrayList<Point3D>();
+				
+				for(Object a: ans1) {
+					double[] b = (double[]) a;
+					Point3D point = new Point3D(b[0],b[1],b[2]);
+					path.add(point);
+				}
+				return path;
 			} catch (Exception e) {
-				e.printStackTrace();
+				
 			}
 		}
 		return null;
@@ -54,7 +60,7 @@ public class Calculator {
 
 	
 	
-public List<Point3D> Trajectory(double planetid1,double planetid2,double year1,double year2,double month1,double month2,double day1,double day2,double hour1, double hour2, double minute1,double minute2,double second1,double second2, double altitude1, double altitude2, int option) throws Exception {
+public Object[] Trajectory(double planetid1,double planetid2,double year1,double year2,double month1,double month2,double day1,double day2,double hour1, double hour2, double minute1,double minute2,double second1,double second2, double altitude1, double altitude2, int option) throws Exception {
 		
 		Object[] output = engine.feval(9,"TestAlg", planetid1, year1, month1, day1, hour1, minute1, second1, altitude1, planetid2, year2, month2, day2, hour2, minute2, second2, altitude2);
 		double[][] Rspacecraft = (double[][]) output[8];
@@ -63,8 +69,8 @@ public List<Point3D> Trajectory(double planetid1,double planetid2,double year1,d
 			stateVectors.add(new Point3D(d[0]/50000,d[2]/50000,d[1]/50000));
 		//	System.out.println(stateVectors.get(stateVectors.size()));
 		}
-		
-		return stateVectors;
+		Object[] ans = {stateVectors, output[7], output[6]};
+		return ans;
 		}
 	
 	//public void Transer()

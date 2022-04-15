@@ -25,6 +25,8 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -50,7 +52,20 @@ public class SimScreenController {
 	private Button QuitButton;
 	
 	@FXML
+	private Button calculateButton;
+	
+	@FXML
+	private Button  resetButton;
+	
+	@FXML
+	private Button playButton;
+	
+	@FXML
+	private Button pauseButton;
+	
+	@FXML
 	private GridPane controls;
+	
 	@FXML
 	private GridPane startAltError;
 	
@@ -83,6 +98,19 @@ public class SimScreenController {
 	
 	@FXML
 	private TextField endAlt;
+	
+	@FXML
+	private Slider speedSlider;
+	
+	@FXML
+	private Label speedText;
+	
+	@FXML
+	private Label deltaV;
+	
+	@FXML
+	private Label timeOfFlight;
+	
 
 	public FPSCamera camera;
 
@@ -91,6 +119,12 @@ public class SimScreenController {
 	private Group world;
 
 	public Calculator calculator;
+	
+	private AnimationTimer timer;
+	
+	private PolyLine3D trajectory;
+	
+	private double playspeed;
 
 	public SimScreenController() {
 	}
@@ -170,6 +204,13 @@ public class SimScreenController {
 		startDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
 			getPlanetPos();
 		});
+		
+		playspeed = 1;
+		speedSlider.valueProperty().addListener((ov, oldValue, newValue) -> {
+			String str = String.format("%.2f", newValue);
+			playspeed = Double.valueOf(str);
+			speedText.setText("Play Speed: "+ str+"x");
+		});
 
 		
 		}
@@ -227,31 +268,69 @@ public class SimScreenController {
 			for (int i = 0; i < planetPaths.length; i++) {
 				Planets.get(i + 1).setPath(planetPaths[i]);
 			}
-			List<Point3D> points = calculator.Trajectory(planetid1, planetid2, year1, year2, month1, month2, day1, day2,
+			 
+			Object[] output= calculator.Trajectory(planetid1, planetid2, year1, year2, month1, month2, day1, day2,
 					hour1, hour2, minute1, minute2, second1, second2, altitude1, altitude2, 1);
-			PolyLine3D trajectory = new PolyLine3D(points, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
+			
+			List<Point3D> points = (List<Point3D>) output[0];
+			
+			String str = String.format("%.2f", output[1]);
+			deltaV.setText("Required ΔV: " + str + " (Km/s)");
+			str = String.format("%.2f", output[2]);
+			timeOfFlight.setText("Time of Flight: " + str + " (Days)");
+			
+			trajectory = new PolyLine3D(points, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
 			world.getChildren().add(trajectory);
-			
-			new AnimationTimer() {
-				@Override
-				public void handle(long now) {
-
-					long delta = now - last;
-					if (delta > 16666666) {
-						for (Planet p : Planets) {
-						//	p.update(step);
-							step++;
-						}
-						last = now;
-					}
+			for(Planet p: Planets) {
+				if(p.getId()!=0) {
+				p.setPath(calculator.planetPath(p.getId(), startDatePicker.getValue(), endDatePicker.getValue()));
 				}
-			}.start();
+			}
 			
-			
+			calculateButton.setVisible(false);
+			resetButton.setVisible(true);
+			playButton.setVisible(true);
 		} catch (Exception e) {
 			matlabError.setVisible(true);
 		}
 		}
+	}
+	
+	@FXML
+	private void resetSpeed() {
+		playspeed = 1;
+		speedSlider.setValue(1);
+	}
+	
+	@FXML
+	private void play() {
+		timer = new AnimationTimer(){
+			@Override
+			public void handle(long now) {
+
+				long delta = now - last;
+				if (delta > 16666666/playspeed) {
+					for (Planet p : Planets) {
+						p.update(step);
+					}
+						if(step >= Planets.get(1).getPathLength()-1) {
+							this.stop();
+						}
+						step++;
+					last = now;
+				}
+			}
+		};
+		playButton.setVisible(false);
+		pauseButton.setVisible(true);
+		timer.start();
+	}
+	
+	@FXML
+	private void pause() {
+		timer.stop();
+		pauseButton.setVisible(false);
+		playButton.setVisible(true);
 	}
 	
 	private boolean checkInputs() {
@@ -297,7 +376,18 @@ public class SimScreenController {
 
 	@FXML
 	private void reset() {
+		if(timer!=null) {
+		timer.stop();
+		}
 		step = 0;
+		for(Planet p: Planets) {
+			p.update(0);
+		}
+		world.getChildren().remove(trajectory);
+		resetButton.setVisible(false);
+		playButton.setVisible(false);
+		pauseButton.setVisible(false);
+		calculateButton.setVisible(true);
 	}
 	private double stringToID(String value) {
 		value = value.toLowerCase();

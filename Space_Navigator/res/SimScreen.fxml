@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -23,8 +24,9 @@
          <bottom>
             <GridPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" styleClass="bottompanel" BorderPane.alignment="CENTER">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="350.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="250.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
               </columnConstraints>
               <rowConstraints>
@@ -32,13 +34,77 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quit" text="Quit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Button fx:id="calculateButton" mnemonicParsing="false" onAction="#calculate" text="Calculate" GridPane.halignment="CENTER" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+                  <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quit" text="Quit" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Button fx:id="calculateButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#calculate" prefWidth="170.0" text="Calculate" GridPane.halignment="CENTER" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></Button>
+                  <Button fx:id="FullScreenButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleFullscreen" text="Toggle Full Screen" GridPane.columnIndex="3" />
+                  <Button mnemonicParsing="false" onAction="#toggleControls" text="Controls" GridPane.columnIndex="3" GridPane.rowSpan="2" />
+                  <Slider fx:id="speedSlider" max="10.0" maxWidth="-Infinity" min="0.5" minWidth="-Infinity" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowSpan="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Slider>
+                  <Button fx:id="resetButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reset" prefWidth="110.0" text="Reset" visible="false" GridPane.halignment="CENTER" GridPane.rowSpan="2">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="125.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="playButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#play" prefWidth="110.0" text="Play" visible="false" GridPane.halignment="CENTER" GridPane.rowSpan="2">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="125.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="pauseButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pause" prefWidth="110.0" text="Pause" visible="false" GridPane.halignment="CENTER" GridPane.rowSpan="2">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="125.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label fx:id="speedText" alignment="CENTER" text="Play Speed: 1.00x" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resetSpeed" text="1.00x" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Button>
+                  <Label fx:id="deltaV" text="Required ΔV: NA (Km/s)" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                      <font>
                         <Font size="29.0" />
-                     </font></Button>
-                  <Button fx:id="FullScreenButton" mnemonicParsing="false" onAction="#toggleFullscreen" text="Toggle Full Screen" GridPane.columnIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#toggleControls" text="Controls" GridPane.columnIndex="2" GridPane.rowSpan="2" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="timeOfFlight" text="Time of Flight: NA (Days)" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="29.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
                </children>
             </GridPane>
          </bottom>
@@ -101,7 +167,7 @@
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" />
                            </HBox.margin></Text>
-                        <TextField fx:id="endAlt" alignment="CENTER">
+                        <TextField fx:id="endAlt">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="5.0" />
                            </HBox.margin></TextField>
