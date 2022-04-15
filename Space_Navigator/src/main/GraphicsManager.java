@@ -7,9 +7,12 @@ import com.sun.javafx.geom.Vec2d;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
@@ -50,13 +53,25 @@ public class GraphicsManager {
 		primaryStage.show();
 		primaryStage.sizeToScene();
 		
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    controller.focusSubscene();
+                }
+            }
+        });
+		
+
+		letterbox(scene, (Pane) root);
+		
 		try {
 			calculator.initializeMATLAB();
+			controller.getPlanetPos();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		letterbox(scene, (Pane) root);
 	}
 
 	private void letterbox(final Scene scene, final Pane contentPane) {

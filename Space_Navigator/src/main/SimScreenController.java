@@ -25,6 +25,7 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.PhongMaterial;
@@ -47,13 +48,24 @@ public class SimScreenController {
 
 	@FXML
 	private Button QuitButton;
-
+	
 	@FXML
-	private Button SetOrbitalElementsButton;
-
+	private GridPane controls;
 	@FXML
-	private GridPane OrbitalElements;
-
+	private GridPane startAltError;
+	
+	@FXML
+	private GridPane endAltError;
+	
+	@FXML
+	private GridPane startDateError;
+	
+	@FXML
+	private GridPane endDateError;
+	
+	@FXML
+	private GridPane matlabError;
+	
 	@FXML
 	private BorderPane BorderPane;
 
@@ -65,6 +77,12 @@ public class SimScreenController {
 
 	@FXML
 	private DatePicker endDatePicker;
+	
+	@FXML
+	private TextField startAlt;
+	
+	@FXML
+	private TextField endAlt;
 
 	public FPSCamera camera;
 
@@ -73,8 +91,6 @@ public class SimScreenController {
 	private Group world;
 
 	public Calculator calculator;
-
-	private boolean calculate = false;
 
 	public SimScreenController() {
 	}
@@ -149,40 +165,19 @@ public class SimScreenController {
 		}
 
 		subscene.setRoot(world);
+		
 		startDatePicker.setValue(LocalDate.now());
 		startDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
 			getPlanetPos();
 		});
 
-		new AnimationTimer() {
-			@Override
-			public void handle(long now) {
-
-				long delta = now - last;
-				if (delta > 16666666) {
-						//update(delta);
-					last = now;
-				}
-			}
-		}.start();
+		
 		}
 		
 
-	private int step = 0;
-	
-	private long last = 0;
-
-	private void update(long delta) {
-		for (Planet p : Planets) {
-			p.update(step);
-			step++;
-		}
-	}
-
 	@FXML
-	private void getPlanetPos() {
+	public void getPlanetPos() {
 		LocalDate date = startDatePicker.getValue();
-
 		for (Planet p : Planets) {
 			if (p.getId() != 0 && calculator.engine != null) {
 				try {
@@ -194,9 +189,15 @@ public class SimScreenController {
 			}
 		}
 	}
+	
+	private int step = 0;
+	
+	private long last = 0;
 
 	@FXML
 	private void calculate() {
+		
+		if(checkInputs()) {
 		double planetid1 = stringToID(StartingPlanetSelector.getValue());
 		double planetid2 = stringToID(DestinationPlanetSelector.getValue());
 		double year1 = startDatePicker.getValue().getYear();
@@ -230,11 +231,74 @@ public class SimScreenController {
 					hour1, hour2, minute1, minute2, second1, second2, altitude1, altitude2, 1);
 			PolyLine3D trajectory = new PolyLine3D(points, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
 			world.getChildren().add(trajectory);
+			
+			new AnimationTimer() {
+				@Override
+				public void handle(long now) {
+
+					long delta = now - last;
+					if (delta > 16666666) {
+						for (Planet p : Planets) {
+						//	p.update(step);
+							step++;
+						}
+						last = now;
+					}
+				}
+			}.start();
+			
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			matlabError.setVisible(true);
+		}
 		}
 	}
+	
+	private boolean checkInputs() {
+		if(startDatePicker.getValue()==null) {
+			startDateError.setVisible(true);
+			return false;
+		}else if(endDatePicker.getValue() == null) {
+			endDateError.setVisible(true);
+			return false;
+		}else {
+			try {
+				double d = Double.parseDouble(startAlt.getText());
+				if(d <= 0) {
+					startAltError.setVisible(true);
+					return false;
+				}
+			}catch(Exception e) {
+				startAltError.setVisible(true);
+				return false;
+			}
+			try {
+				double d = Double.parseDouble(endAlt.getText());
+				if(d <= 0) {
+					endAltError.setVisible(true);
+					return false;
+				}
+			}catch(Exception e) {
+				endAltError.setVisible(true);
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@FXML
+	private void clearErrors() {
+		startAltError.setVisible(false);
+		endAltError.setVisible(false);
+		startDateError.setVisible(false);
+		endDateError.setVisible(false);
+		matlabError.setVisible(false);
+	}
 
+	@FXML
+	private void reset() {
+		step = 0;
+	}
 	private double stringToID(String value) {
 		value = value.toLowerCase();
 		switch (value) {
@@ -266,12 +330,16 @@ public class SimScreenController {
 	}
 
 	@FXML
-	private void toggleOrbitalElements() {
-		OrbitalElements.setVisible(!OrbitalElements.isVisible());
+	private void toggleControls() {
+		controls.setVisible(!controls.isVisible());
 	}
 
 	@FXML
 	private void quit() {
 		System.exit(1);
+	}
+
+	public void focusSubscene() {
+		subscene.requestFocus();	
 	}
 }
