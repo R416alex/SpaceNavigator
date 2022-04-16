@@ -70,6 +70,10 @@ public class FPSCamera extends Parent {
 	private void initialize() {
 		getChildren().add(root);
 		getTransforms().add(affine);
+		t.setZ(-12500);
+		t.setY(-4500);
+		rotateX.setAngle(-19.798);
+		affine.prepend(t.createConcatenation(rotateY.createConcatenation(rotateX.createConcatenation(rotateZ))));	
 		initializeCamera();
 		startUpdateThread();
 	}

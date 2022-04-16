@@ -149,9 +149,11 @@ public class SimScreenController {
 
 		camera = new FPSCamera();
 		subscene.setCamera(camera.getCamera());
+		
+		
 
 		Image milkyway = new Image("images/skybox/MilkyWay.png");
-		Skybox skybox = new Skybox(milkyway, 100000, camera.getCamera());
+		Skybox skybox = new Skybox(milkyway, 75000, camera.getCamera());
 		world.getChildren().add(skybox);
 
 		AmbientLight light = new AmbientLight();
@@ -194,6 +196,10 @@ public class SimScreenController {
 		neptunematerial.setDiffuseMap(new Image("images/planets/neptune.jpg"));
 		Planets.add(new Planet(350, new Point3D(-750 * 5, 0, 0), 1 / .24, 3, neptunematerial, 8));
 
+		PhongMaterial plutomaterial = new PhongMaterial();
+		plutomaterial.setDiffuseMap(new Image("images/planets/pluto.jpg"));
+		Planets.add(new Planet(100, new Point3D(-750 * 5, 0, 0), 1 / .24, 3, plutomaterial, 9));
+		
 		for (Planet p : Planets) {
 			world.getChildren().add(p.getShape());
 		}
@@ -256,7 +262,7 @@ public class SimScreenController {
 		double altitude1 = 600;
 		double altitude2 = 600;
 		try {
-			ArrayList<Point3D>[] planetPaths = new ArrayList[8];
+			ArrayList<Point3D>[] planetPaths = new ArrayList[9];
 			planetPaths[0] = calculator.planetPath(1, startDatePicker.getValue(), endDatePicker.getValue());
 			planetPaths[1] = calculator.planetPath(2, startDatePicker.getValue(), endDatePicker.getValue());
 			planetPaths[2] = calculator.planetPath(3, startDatePicker.getValue(), endDatePicker.getValue());
@@ -265,6 +271,7 @@ public class SimScreenController {
 			planetPaths[5] = calculator.planetPath(6, startDatePicker.getValue(), endDatePicker.getValue());
 			planetPaths[6] = calculator.planetPath(7, startDatePicker.getValue(), endDatePicker.getValue());
 			planetPaths[7] = calculator.planetPath(8, startDatePicker.getValue(), endDatePicker.getValue());
+			planetPaths[8] = calculator.planetPath(9, startDatePicker.getValue(), endDatePicker.getValue());
 			for (int i = 0; i < planetPaths.length; i++) {
 				Planets.get(i + 1).setPath(planetPaths[i]);
 			}
@@ -408,6 +415,8 @@ public class SimScreenController {
 			return 7;
 		case "neptune":
 			return 8;
+		case "pluto":
+			return 9;
 		default:
 			return -1;
 		}

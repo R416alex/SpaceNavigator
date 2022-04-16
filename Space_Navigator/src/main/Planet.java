@@ -51,26 +51,20 @@ public class Planet {
 		if(Path != null) {
 		setLocation(Path.get(step));
 		}
-//		ang = (rotationRate * (delta / 16666666));
-//		Rotate r = new Rotate(ang, new javafx.geometry.Point3D(0, 1, 0));
-//		sphere.getTransforms().add(r);
 	}
 
 	public Sphere getShape() {
 		return sphere;
 	}
 	
-	private int scale = 50000;
-	
 	public void setLocation(Point3D point3d) {
 		location = point3d;
-		sphere.setTranslateX(location.getX()/scale);
-		sphere.setTranslateY(location.getZ()/scale);
-		sphere.setTranslateZ(location.getY()/scale);
+		sphere.setTranslateX(location.getX());
+		sphere.setTranslateY(location.getZ());
+		sphere.setTranslateZ(location.getY());
 	}
 
 	public int getId() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
