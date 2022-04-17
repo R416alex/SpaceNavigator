@@ -23,12 +23,13 @@ public class Planet {
 
 	public double rotationRate;
 	public double rotationAngle;
-	
+
 	public ArrayList<Point3D> Path;
-	
+
 	public int id;
 
-	public Planet(double size, Point3D location, double rotationRate, double rotationAngle, PhongMaterial material, int id) {
+	public Planet(double size, Point3D location, double rotationRate, double rotationAngle, PhongMaterial material,
+			int id) {
 
 		this.id = id;
 		sphere = new Sphere(size);
@@ -48,15 +49,15 @@ public class Planet {
 	public double ang = 0;
 
 	public void update(int step) {
-		if(Path != null) {
-		setLocation(Path.get(step));
+		if (Path != null) {
+			setLocation(Path.get(step));
 		}
 	}
 
 	public Sphere getShape() {
 		return sphere;
 	}
-	
+
 	public void setLocation(Point3D point3d) {
 		location = point3d;
 		sphere.setTranslateX(location.getX());
@@ -70,8 +71,9 @@ public class Planet {
 
 	public void setPath(ArrayList<Point3D> list) {
 		Path = list;
-		
+
 	}
+
 	public int getPathLength() {
 		return Path.size();
 	}

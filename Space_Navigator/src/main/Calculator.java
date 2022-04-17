@@ -53,7 +53,6 @@ public class Calculator {
 		double[] R = (double[]) ans1[1];
 		double[] V = (double[]) ans1[2];
 
-		
 		return scale(new Point3D(R[0], R[1], R[2]));
 
 	}
@@ -68,34 +67,23 @@ public class Calculator {
 		List<Point3D> stateVectors = new ArrayList<Point3D>();
 		for (double[] d : Rspacecraft) {
 			stateVectors.add(scale(new Point3D(d[0], d[2], d[1])));
-			// System.out.println(stateVectors.get(stateVectors.size()));
 		}
 		Object[] ans = { stateVectors, output[7], output[6] };
 		return ans;
 	}
-	
+
 	public Point3D scale(Point3D p) {
-		double r = Math.sqrt(Math.pow(p.getX(), 2)+Math.pow(p.getY(),2)+Math.pow(p.getZ(), 2));
+		double r = Math.sqrt(Math.pow(p.getX(), 2) + Math.pow(p.getY(), 2) + Math.pow(p.getZ(), 2));
 		double theta = Math.atan2(p.getY(), p.getX());
-		double phi = Math.acos(p.getZ()/r);
-		r = (Math.sqrt(r)/5)+500;
+		double phi = Math.acos(p.getZ() / r);
+
+		r = (Math.sqrt(r) / 5) + 500;
+
 		double x = r * Math.cos(theta) * Math.sin(phi);
 		double y = (r * Math.sin(theta) * Math.sin(phi));
-		double z = (r* Math.cos(phi));
-		
-		return new Point3D(x,y,z);
-//		boolean sign = true;
-//		if(d < 0) {
-//			sign = false;
-//			d = d * -1;
-//		}else if(d == 0) {
-//			return 0;
-//		}
-//		if(sign) {
-//			return Math.sqrt(d/5000)*100;
-//		}else {
-//			return (-(Math.sqrt(d/5000)*100));
-//		}
+		double z = (r * Math.cos(phi));
+
+		return new Point3D(x, y, z);
 	}
 
 	public void initializeMATLAB() throws Exception {

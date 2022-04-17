@@ -1,22 +1,34 @@
 package main;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.sun.javafx.geom.Vec2d;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GraphicsManager {
 
@@ -32,46 +44,84 @@ public class GraphicsManager {
 	}
 
 	public void initialize() throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		FileInputStream fxmlStream = new FileInputStream(getClass().getResource("/SimScreen.fxml").getPath());
+		Pane titlePane = new Pane();
+		titlePane.setPrefSize(1280, 720);
+		System.out.println(this.getClass().getResource("/").getPath());
+		BackgroundImage bi = new BackgroundImage(new Image("/images/title.jpg"), BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+				new BackgroundSize(984, 715, false, false, false, false));
 
-		Parent root = loader.load(fxmlStream);
+		titlePane.setBackground(new Background(bi));
+		Scene title = new Scene(titlePane, 1280, 720);
 
-		SimScreenController controller = loader.getController();
-		
-		controller.setCalculator(calculator);
-
-		primaryStage.setTitle("SpaceNavigators");
-		primaryStage.setFullScreenExitHint("");
-
-		scene = new Scene(root);
-		scene.setFill(Color.BLACK);
-
-		controller.camera.loadControlsForScene(scene);
-
-		primaryStage.setScene(scene);
+		primaryStage.setScene(title);
 		primaryStage.show();
 		primaryStage.sizeToScene();
-		
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    controller.focusSubscene();
-                }
-            }
-        });
-		
+		primaryStage.show();
 
-		letterbox(scene, (Pane) root);
-		
+		FadeTransition fadeIn = new FadeTransition(Duration.seconds(2), titlePane);
+		fadeIn.setFromValue(0);
+		fadeIn.setToValue(1);
+		fadeIn.setCycleCount(1);
+
+		FadeTransition fadeOut = new FadeTransition(Duration.seconds(2), titlePane);
+		fadeOut.setFromValue(1);
+		fadeOut.setToValue(0);
+		fadeOut.setCycleCount(1);
+
+		AnimationTimer timer = new timer(fadeOut);
+		fadeIn.play();
+		fadeIn.setOnFinished((e) -> {
+			timer.start();
+			try {
+				calculator.initializeMATLAB();
+			} catch (Exception e1) {
+			}
+		});
+		fadeOut.setOnFinished((e) -> {
+			timer.stop();
+			setSimScreen();
+		});
+	}
+
+	private void setSimScreen() {
+		FXMLLoader loader = new FXMLLoader();
+		FileInputStream fxmlStream;
 		try {
-			calculator.initializeMATLAB();
+			fxmlStream = new FileInputStream(getClass().getResource("/SimScreen.fxml").getPath());
+			Parent root = loader.load(fxmlStream);
+
+			SimScreenController controller = loader.getController();
+
+			controller.setCalculator(calculator);
 			controller.getPlanetPos();
+			primaryStage.setTitle("SpaceNavigators");
+			primaryStage.setFullScreenExitHint("");
+
+			scene = new Scene(root);
+			scene.setFill(Color.BLACK);
+
+			controller.camera.loadControlsForScene(scene);
+
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			primaryStage.sizeToScene();
+
+			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+				@Override
+				public void handle(KeyEvent event) {
+					if (event.getCode() == KeyCode.ESCAPE) {
+						controller.focusSubscene();
+					}
+				}
+			});
+
+			letterbox(scene, (Pane) root);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
+
 	}
 
 	private void letterbox(final Scene scene, final Pane contentPane) {
@@ -83,6 +133,28 @@ public class GraphicsManager {
 				contentPane);
 		scene.widthProperty().addListener(sizeListener);
 		scene.heightProperty().addListener(sizeListener);
+	}
+
+	private double last = 0;
+	private int count = 0;
+
+	private class timer extends AnimationTimer {
+		FadeTransition fadeOut;
+
+		public timer(FadeTransition f) {
+			fadeOut = f;
+		}
+
+		@Override
+		public void handle(long now) {
+			if (now - last > 1666666.66) {
+				last = now;
+				count++;
+				if (count >= 60) {
+					fadeOut.play();
+				}
+			}
+		}
 	}
 
 	private static class SceneSizeChangeListener implements ChangeListener<Number> {

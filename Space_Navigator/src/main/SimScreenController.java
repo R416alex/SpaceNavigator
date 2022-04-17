@@ -50,37 +50,37 @@ public class SimScreenController {
 
 	@FXML
 	private Button QuitButton;
-	
+
 	@FXML
 	private Button calculateButton;
-	
+
 	@FXML
-	private Button  resetButton;
-	
+	private Button resetButton;
+
 	@FXML
 	private Button playButton;
-	
+
 	@FXML
 	private Button pauseButton;
-	
+
 	@FXML
 	private GridPane controls;
-	
+
 	@FXML
 	private GridPane startAltError;
-	
+
 	@FXML
 	private GridPane endAltError;
-	
+
 	@FXML
 	private GridPane startDateError;
-	
+
 	@FXML
 	private GridPane endDateError;
-	
+
 	@FXML
 	private GridPane matlabError;
-	
+
 	@FXML
 	private BorderPane BorderPane;
 
@@ -92,25 +92,24 @@ public class SimScreenController {
 
 	@FXML
 	private DatePicker endDatePicker;
-	
+
 	@FXML
 	private TextField startAlt;
-	
+
 	@FXML
 	private TextField endAlt;
-	
+
 	@FXML
 	private Slider speedSlider;
-	
+
 	@FXML
 	private Label speedText;
-	
+
 	@FXML
 	private Label deltaV;
-	
+
 	@FXML
 	private Label timeOfFlight;
-	
 
 	public FPSCamera camera;
 
@@ -119,11 +118,11 @@ public class SimScreenController {
 	private Group world;
 
 	public Calculator calculator;
-	
+
 	private AnimationTimer timer;
-	
+
 	private PolyLine3D trajectory;
-	
+
 	private double playspeed;
 
 	public SimScreenController() {
@@ -149,8 +148,6 @@ public class SimScreenController {
 
 		camera = new FPSCamera();
 		subscene.setCamera(camera.getCamera());
-		
-		
 
 		Image milkyway = new Image("images/skybox/MilkyWay.png");
 		Skybox skybox = new Skybox(milkyway, 75000, camera.getCamera());
@@ -199,28 +196,26 @@ public class SimScreenController {
 		PhongMaterial plutomaterial = new PhongMaterial();
 		plutomaterial.setDiffuseMap(new Image("images/planets/pluto.jpg"));
 		Planets.add(new Planet(100, new Point3D(-750 * 5, 0, 0), 1 / .24, 3, plutomaterial, 9));
-		
+
 		for (Planet p : Planets) {
 			world.getChildren().add(p.getShape());
 		}
 
 		subscene.setRoot(world);
-		
+
 		startDatePicker.setValue(LocalDate.now());
 		startDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
 			getPlanetPos();
 		});
-		
+
 		playspeed = 1;
 		speedSlider.valueProperty().addListener((ov, oldValue, newValue) -> {
 			String str = String.format("%.2f", newValue);
 			playspeed = Double.valueOf(str);
-			speedText.setText("Play Speed: "+ str+"x");
+			speedText.setText("Play Speed: " + str + "x");
 		});
 
-		
-		}
-		
+	}
 
 	@FXML
 	public void getPlanetPos() {
@@ -236,94 +231,95 @@ public class SimScreenController {
 			}
 		}
 	}
-	
+
 	private int step = 0;
-	
+
 	private long last = 0;
 
 	@FXML
 	private void calculate() {
-		
-		if(checkInputs()) {
-		double planetid1 = stringToID(StartingPlanetSelector.getValue());
-		double planetid2 = stringToID(DestinationPlanetSelector.getValue());
-		double year1 = startDatePicker.getValue().getYear();
-		double year2 = endDatePicker.getValue().getYear();
-		double month1 = startDatePicker.getValue().getMonthValue();
-		double month2 = endDatePicker.getValue().getMonthValue();
-		double day1 = startDatePicker.getValue().getDayOfMonth();
-		double day2 = endDatePicker.getValue().getDayOfMonth();
-		double hour1 = 1;
-		double hour2 = 1;
-		double minute1 = 1;
-		double minute2 = 1;
-		double second1 = 1;
-		double second2 = 1;
-		double altitude1 = 600;
-		double altitude2 = 600;
-		try {
-			ArrayList<Point3D>[] planetPaths = new ArrayList[9];
-			planetPaths[0] = calculator.planetPath(1, startDatePicker.getValue(), endDatePicker.getValue());
-			planetPaths[1] = calculator.planetPath(2, startDatePicker.getValue(), endDatePicker.getValue());
-			planetPaths[2] = calculator.planetPath(3, startDatePicker.getValue(), endDatePicker.getValue());
-			planetPaths[3] = calculator.planetPath(4, startDatePicker.getValue(), endDatePicker.getValue());
-			planetPaths[4] = calculator.planetPath(5, startDatePicker.getValue(), endDatePicker.getValue());
-			planetPaths[5] = calculator.planetPath(6, startDatePicker.getValue(), endDatePicker.getValue());
-			planetPaths[6] = calculator.planetPath(7, startDatePicker.getValue(), endDatePicker.getValue());
-			planetPaths[7] = calculator.planetPath(8, startDatePicker.getValue(), endDatePicker.getValue());
-			planetPaths[8] = calculator.planetPath(9, startDatePicker.getValue(), endDatePicker.getValue());
-			for (int i = 0; i < planetPaths.length; i++) {
-				Planets.get(i + 1).setPath(planetPaths[i]);
-			}
-			 
-			Object[] output= calculator.Trajectory(planetid1, planetid2, year1, year2, month1, month2, day1, day2,
-					hour1, hour2, minute1, minute2, second1, second2, altitude1, altitude2, 1);
-			
-			List<Point3D> points = (List<Point3D>) output[0];
-			
-			String str = String.format("%.2f", output[1]);
-			deltaV.setText("Required ΔV: " + str + " (Km/s)");
-			str = String.format("%.2f", output[2]);
-			timeOfFlight.setText("Time of Flight: " + str + " (Days)");
-			
-			trajectory = new PolyLine3D(points, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
-			world.getChildren().add(trajectory);
-			for(Planet p: Planets) {
-				if(p.getId()!=0) {
-				p.setPath(calculator.planetPath(p.getId(), startDatePicker.getValue(), endDatePicker.getValue()));
+
+		if (checkInputs()) {
+			double planetid1 = stringToID(StartingPlanetSelector.getValue());
+			double planetid2 = stringToID(DestinationPlanetSelector.getValue());
+			double year1 = startDatePicker.getValue().getYear();
+			double year2 = endDatePicker.getValue().getYear();
+			double month1 = startDatePicker.getValue().getMonthValue();
+			double month2 = endDatePicker.getValue().getMonthValue();
+			double day1 = startDatePicker.getValue().getDayOfMonth();
+			double day2 = endDatePicker.getValue().getDayOfMonth();
+			double hour1 = 1;
+			double hour2 = 1;
+			double minute1 = 1;
+			double minute2 = 1;
+			double second1 = 1;
+			double second2 = 1;
+			double altitude1 = 600;
+			double altitude2 = 600;
+			try {
+				ArrayList<Point3D>[] planetPaths = new ArrayList[9];
+				planetPaths[0] = calculator.planetPath(1, startDatePicker.getValue(), endDatePicker.getValue());
+				planetPaths[1] = calculator.planetPath(2, startDatePicker.getValue(), endDatePicker.getValue());
+				planetPaths[2] = calculator.planetPath(3, startDatePicker.getValue(), endDatePicker.getValue());
+				planetPaths[3] = calculator.planetPath(4, startDatePicker.getValue(), endDatePicker.getValue());
+				planetPaths[4] = calculator.planetPath(5, startDatePicker.getValue(), endDatePicker.getValue());
+				planetPaths[5] = calculator.planetPath(6, startDatePicker.getValue(), endDatePicker.getValue());
+				planetPaths[6] = calculator.planetPath(7, startDatePicker.getValue(), endDatePicker.getValue());
+				planetPaths[7] = calculator.planetPath(8, startDatePicker.getValue(), endDatePicker.getValue());
+				planetPaths[8] = calculator.planetPath(9, startDatePicker.getValue(), endDatePicker.getValue());
+				for (int i = 0; i < planetPaths.length; i++) {
+					Planets.get(i + 1).setPath(planetPaths[i]);
 				}
+
+				Object[] output = calculator.Trajectory(planetid1, planetid2, year1, year2, month1, month2, day1, day2,
+						hour1, hour2, minute1, minute2, second1, second2, altitude1, altitude2, 1);
+
+				List<Point3D> points = (List<Point3D>) output[0];
+
+				String str = String.format("%.2f", output[1]);
+				deltaV.setText("Required ΔV: " + str + " (Km/s)");
+				str = String.format("%.2f", output[2]);
+				timeOfFlight.setText("Time of Flight: " + str + " (Days)");
+
+				trajectory = new PolyLine3D(points, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
+				world.getChildren().add(trajectory);
+				for (Planet p : Planets) {
+					if (p.getId() != 0) {
+						p.setPath(
+								calculator.planetPath(p.getId(), startDatePicker.getValue(), endDatePicker.getValue()));
+					}
+				}
+
+				calculateButton.setVisible(false);
+				resetButton.setVisible(true);
+				playButton.setVisible(true);
+			} catch (Exception e) {
+				matlabError.setVisible(true);
 			}
-			
-			calculateButton.setVisible(false);
-			resetButton.setVisible(true);
-			playButton.setVisible(true);
-		} catch (Exception e) {
-			matlabError.setVisible(true);
-		}
 		}
 	}
-	
+
 	@FXML
 	private void resetSpeed() {
 		playspeed = 1;
 		speedSlider.setValue(1);
 	}
-	
+
 	@FXML
 	private void play() {
-		timer = new AnimationTimer(){
+		timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 
 				long delta = now - last;
-				if (delta > 16666666/playspeed) {
+				if (delta > 16666666 / playspeed) {
 					for (Planet p : Planets) {
 						p.update(step);
 					}
-						if(step >= Planets.get(1).getPathLength()-1) {
-							this.stop();
-						}
-						step++;
+					if (step >= Planets.get(1).getPathLength() - 1) {
+						this.stop();
+					}
+					step++;
 					last = now;
 				}
 			}
@@ -332,46 +328,46 @@ public class SimScreenController {
 		pauseButton.setVisible(true);
 		timer.start();
 	}
-	
+
 	@FXML
 	private void pause() {
 		timer.stop();
 		pauseButton.setVisible(false);
 		playButton.setVisible(true);
 	}
-	
+
 	private boolean checkInputs() {
-		if(startDatePicker.getValue()==null) {
+		if (startDatePicker.getValue() == null) {
 			startDateError.setVisible(true);
 			return false;
-		}else if(endDatePicker.getValue() == null) {
+		} else if (endDatePicker.getValue() == null) {
 			endDateError.setVisible(true);
 			return false;
-		}else {
+		} else {
 			try {
 				double d = Double.parseDouble(startAlt.getText());
-				if(d <= 0) {
+				if (d <= 0) {
 					startAltError.setVisible(true);
 					return false;
 				}
-			}catch(Exception e) {
+			} catch (Exception e) {
 				startAltError.setVisible(true);
 				return false;
 			}
 			try {
 				double d = Double.parseDouble(endAlt.getText());
-				if(d <= 0) {
+				if (d <= 0) {
 					endAltError.setVisible(true);
 					return false;
 				}
-			}catch(Exception e) {
+			} catch (Exception e) {
 				endAltError.setVisible(true);
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	@FXML
 	private void clearErrors() {
 		startAltError.setVisible(false);
@@ -383,11 +379,11 @@ public class SimScreenController {
 
 	@FXML
 	private void reset() {
-		if(timer!=null) {
-		timer.stop();
+		if (timer != null) {
+			timer.stop();
 		}
 		step = 0;
-		for(Planet p: Planets) {
+		for (Planet p : Planets) {
 			p.update(0);
 		}
 		world.getChildren().remove(trajectory);
@@ -396,6 +392,7 @@ public class SimScreenController {
 		pauseButton.setVisible(false);
 		calculateButton.setVisible(true);
 	}
+
 	private double stringToID(String value) {
 		value = value.toLowerCase();
 		switch (value) {
@@ -439,6 +436,6 @@ public class SimScreenController {
 	}
 
 	public void focusSubscene() {
-		subscene.requestFocus();	
+		subscene.requestFocus();
 	}
 }

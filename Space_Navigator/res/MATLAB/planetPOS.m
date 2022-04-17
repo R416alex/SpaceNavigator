@@ -25,6 +25,8 @@ count = 1;
         
         [~, r(count,:), ~, ~] = planet_oe_and_svJD(planet_id,j,2);
         count = count + 1;
+        [~, r(count,:), ~, ~] = planet_oe_and_svJD(planet_id,j+0.5,2);
+        count = count + 1;
     end
 
 A = r;
