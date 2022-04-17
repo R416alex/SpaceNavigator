@@ -1,14 +1,7 @@
 package main;
 
-import java.io.StringWriter;
-
-import java.util.concurrent.Future;
-
-import com.mathworks.engine.MatlabEngine;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class SpaceNavigator extends Application {
 

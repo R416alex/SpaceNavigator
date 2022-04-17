@@ -3,14 +3,8 @@ package main;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import com.mathworks.engine.EngineException;
 import com.mathworks.engine.MatlabEngine;
-import com.mathworks.engine.MatlabExecutionException;
-import com.mathworks.engine.MatlabSyntaxException;
-
 import org.fxyz3d.geometry.Point3D;
 
 public class Calculator {

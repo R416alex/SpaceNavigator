@@ -3,13 +3,10 @@ package main;
 import org.fxyz3d.scene.Axes;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.fxyz3d.geometry.Point3D;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 
 public class Planet {
 

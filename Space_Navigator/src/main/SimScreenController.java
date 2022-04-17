@@ -2,17 +2,13 @@ package main;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.fxyz3d.geometry.Point3D;
 import org.fxyz3d.scene.Skybox;
 import org.fxyz3d.shapes.composites.PolyLine3D;
 import org.fxyz3d.shapes.composites.PolyLine3D.LineType;
-
-import com.sun.prism.paint.Color;
 
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;

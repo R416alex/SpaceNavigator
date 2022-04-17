@@ -1,10 +1,7 @@
 package main;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import com.sun.javafx.geom.Vec2d;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -12,11 +9,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
