@@ -41,7 +41,6 @@ public class GraphicsManager {
 	public void initialize() throws IOException {
 		Pane titlePane = new Pane();
 		titlePane.setPrefSize(1280, 720);
-		System.out.println(this.getClass().getResource("/").getPath());
 		BackgroundImage bi = new BackgroundImage(new Image("/images/title.jpg"), BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
 				new BackgroundSize(984, 715, false, false, false, false));
@@ -72,7 +71,8 @@ public class GraphicsManager {
 			try {
 				calculator.initializeMATLAB();
 			} catch (Exception e1) {
-			}
+				System.out.println("test");
+				}
 		});
 		fadeOut.setOnFinished((e) -> {
 			timer.stop();
@@ -82,10 +82,8 @@ public class GraphicsManager {
 
 	private void setSimScreen() {
 		FXMLLoader loader = new FXMLLoader();
-		FileInputStream fxmlStream;
 		try {
-			fxmlStream = new FileInputStream(getClass().getResource("/SimScreen.fxml").getPath());
-			Parent root = loader.load(fxmlStream);
+			Parent root = loader.load(getClass().getResourceAsStream("/SimScreen.fxml"));
 
 			SimScreenController controller = loader.getController();
 

@@ -1,9 +1,15 @@
 package main;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mathworks.engine.EngineException;
 import com.mathworks.engine.MatlabEngine;
 import org.fxyz3d.geometry.Point3D;
 
@@ -80,10 +86,53 @@ public class Calculator {
 		return new Point3D(x, y, z);
 	}
 
-	public void initializeMATLAB() throws Exception {
-		engine = MatlabEngine.startMatlab();
-		engine.eval("cd 'res/MATLAB' ");
+	public void initializeMATLAB() {
+		try {
+			engine = MatlabEngine.startMatlab();
+			String temp = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
+			String path = temp.substring(0, temp.lastIndexOf("\\"));
+			System.out.println(path);
+			File Dir = new File(path+ "\\MatlabFiles");
+			if (!Dir.exists()){
+			    Dir.mkdirs();
+			}
 
+			InputStream src = this.getClass().getResourceAsStream("/MATLAB/astronomical_data.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/astronomical_data.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/heliocentric_trajectory.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/heliocentric_trajectory.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/Julian0.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/Julian0.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/kepler_equation.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/kepler_equation.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/Lambert.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/Lambert.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/license.txt");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/license.txt"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/main.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/main.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/oe_from_sv.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/oe_from_sv.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/planet_oe_and_sv.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/planet_oe_and_sv.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/planetary_ephemeris.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/planetary_ephemeris.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/planetPOS.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/planetPOS.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/sv_from_oe.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/sv_from_oe.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/TestAlg.asv");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/TestAlg.asv"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/TestAlg.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/TestAlg.m"), StandardCopyOption.REPLACE_EXISTING);
+			src = this.getClass().getResourceAsStream("/MATLAB/user_inputs.m");
+			Files.copy(src, Paths.get(path+"/MatLabFiles/user_inputs.m"), StandardCopyOption.REPLACE_EXISTING);
+			engine.eval("cd '"+path+"\\MatlabFiles' ");
+		
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void shutdown() throws Exception {
