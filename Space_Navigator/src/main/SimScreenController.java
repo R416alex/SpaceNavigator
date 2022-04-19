@@ -202,7 +202,7 @@ public class SimScreenController {
 		PhongMaterial rocketmaterial = new PhongMaterial();
 		rocketmaterial.setDiffuseColor(Color.WHITE);
 		rocket = new Sphere();
-		rocket.setRadius(20);
+		rocket.setRadius(35);
 		rocket.setMaterial(rocketmaterial);
 		
 		for (Planet p : Planets) {
