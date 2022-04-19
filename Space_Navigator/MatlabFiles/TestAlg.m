@@ -49,6 +49,10 @@ tof = jd2 - jd1;
 %Orbital elements of the space vehicle's trajectory based on [Rp1, V1]...
 oe = oe_from_sv(R1, V1, mu);
 % ...and [R2, V2]
+
+if oe(2) >= 1
+    error("e>=1");
+end
 oe3 = oe_from_sv(R2, V2, mu);
 %Velocitis at infinity 
 vinf1 = V1 - Vp1;
@@ -108,34 +112,40 @@ T_parking2 = 2*pi/sqrt(mu_planet2)*r_p_arrival^(3/2)/60;
 %Total delta_v for the mission 
 delta_v_total = delta_v_departure + delta_v_arrival;
 
-rxc = zeros(360,1);ryc = zeros(360,1);rzc = zeros(360,1);
-n = 1;
-
-for i = 1:360
-
-    oec(i,:)=[oe(1), oe(2), oe(3), oe(4), oe(5), oe(6)+i*deg];
-    [rc(i,:), vc(i,:)] = sv_from_oe(oec(i,:), mu);
-
-    rxc(n) = rc(i,1);
-    ryc(n) = rc(i,2);
-    rzc(n) = rc(i,3);
-    
-    n = n+1;
+    cosE1 = (oe(2)+cos(oe(6)))/(1+(oe(2)*cos(oe(6)))); 
+ 
+    if 0 < oe(6) && oe(6) < pi
+        E1 = acos(cosE1);
+    else
+        E1 = 2*pi-acos(cosE1);
+    end
+ 
+%    if oe(2) > 1
+%       % M1 = i*(E1-(oe(2)*sin(E1)))
+%       M1 = i*(oe(2)*sinh(E1))-E1;
+%    else 
+%    M1 = E1-(oe(2)*sin(E1));
+%    end
+ % E1 = acos((oe(2)+cos(oe(6)))/(1+(oe(2)*cos(oe(6)))));
+N = sqrt(mu/(oe(7)^3));
+M1 = E1-(oe(2)*sin(E1));
+   
+   t = M1/N;
+   c = 1;
+for p = 0:tof
+     M2 = N*(t+(p*86400));
+    E = kepler_equation(oe(2), M2);
+    TA = 2*atan(sqrt((1 + oe(2))/(1 - oe(2)))*tan(E/2));
+    [rc(c,:), vc(c,:)] = sv_from_oe([oe(1), oe(2), oe(3), oe(4), oe(5), TA],mu);
+   c = c + 1;
+   M2 = N*(t+((p*86400)+(43200)));
+    E = kepler_equation(oe(2), M2);
+    TA = 2*atan(sqrt((1 + oe(2))/(1 - oe(2)))*tan(E/2));
+    [rc(c,:), vc(c,:)] = sv_from_oe([oe(1), oe(2), oe(3), oe(4), oe(5), TA],mu);
+    c = c + 1;
 end
 
-
-if oe(6) > oe3(6)
-    a = (floor(oe3(6)/deg)+(360-floor(oe(6)/deg)));
-else
-    a = floor(oe3(6)/deg - oe(6)/deg);
-end
-
-rxc = rxc(1:a);
-ryc = ryc(1:a);
-rzc = rzc(1:a);
-rate = tof/360;
-
-Rspacecraft = [rxc, ryc, rzc];
+Rspacecraft = [rc];
 
 % %Error message in case of absurd choices for departure and arrival times
 % if delta_v_departure > 60 || delta_v_arrival > 60 || tof < 0

@@ -26,7 +26,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 
@@ -106,8 +108,12 @@ public class SimScreenController {
 
 	@FXML
 	private Label timeOfFlight;
+	
+	private Sphere rocket;
 
 	public FPSCamera camera;
+	
+	private List<Point3D> trajectorypoints;
 
 	private ArrayList<Planet> Planets;
 
@@ -193,6 +199,12 @@ public class SimScreenController {
 		plutomaterial.setDiffuseMap(new Image("images/planets/pluto.jpg"));
 		Planets.add(new Planet(100, new Point3D(-750 * 5, 0, 0), 1 / .24, 3, plutomaterial, 9));
 
+		PhongMaterial rocketmaterial = new PhongMaterial();
+		rocketmaterial.setDiffuseColor(Color.WHITE);
+		rocket = new Sphere();
+		rocket.setRadius(20);
+		rocket.setMaterial(rocketmaterial);
+		
 		for (Planet p : Planets) {
 			world.getChildren().add(p.getShape());
 		}
@@ -270,14 +282,14 @@ public class SimScreenController {
 				Object[] output = calculator.Trajectory(planetid1, planetid2, year1, year2, month1, month2, day1, day2,
 						hour1, hour2, minute1, minute2, second1, second2, altitude1, altitude2, 1);
 
-				List<Point3D> points = (List<Point3D>) output[0];
+			    trajectorypoints = (List<Point3D>) output[0];
 
 				String str = String.format("%.2f", output[1]);
 				deltaV.setText("Required ΔV: " + str + " (Km/s)");
 				str = String.format("%.2f", output[2]);
 				timeOfFlight.setText("Time of Flight: " + str + " (Days)");
 
-				trajectory = new PolyLine3D(points, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
+				trajectory = new PolyLine3D(trajectorypoints, 25f, javafx.scene.paint.Color.RED, LineType.TRIANGLE);
 				world.getChildren().add(trajectory);
 				for (Planet p : Planets) {
 					if (p.getId() != 0) {
@@ -286,6 +298,10 @@ public class SimScreenController {
 					}
 				}
 
+				rocket.setTranslateX(trajectorypoints.get(0).getX());
+				rocket.setTranslateY(trajectorypoints.get(0).getY());
+				rocket.setTranslateZ(trajectorypoints.get(0).getZ());
+				world.getChildren().add(rocket);
 				calculateButton.setVisible(false);
 				resetButton.setVisible(true);
 				playButton.setVisible(true);
@@ -295,11 +311,6 @@ public class SimScreenController {
 		}
 	}
 
-	@FXML
-	private void resetSpeed() {
-		playspeed = 1;
-		speedSlider.setValue(1);
-	}
 
 	@FXML
 	private void play() {
@@ -308,14 +319,18 @@ public class SimScreenController {
 			public void handle(long now) {
 
 				long delta = now - last;
-				if (delta > 16666666 / playspeed) {
+				if (delta > 16666666) {
 					for (Planet p : Planets) {
 						p.update(step);
+						rocket.setTranslateX(trajectorypoints.get(step).getX());
+						rocket.setTranslateY(trajectorypoints.get(step).getY());
+						rocket.setTranslateZ(trajectorypoints.get(step).getZ());
+						
 					}
-					if (step >= Planets.get(1).getPathLength() - 1) {
+					step = (int) Math.floor(step + playspeed);
+					if (step >= Planets.get(1).getPathLength() - 1 || step >= trajectorypoints.size()-1) {
 						this.stop();
 					}
-					step++;
 					last = now;
 				}
 			}
@@ -382,6 +397,7 @@ public class SimScreenController {
 		for (Planet p : Planets) {
 			p.update(0);
 		}
+		world.getChildren().remove(rocket);
 		world.getChildren().remove(trajectory);
 		resetButton.setVisible(false);
 		playButton.setVisible(false);

@@ -21,11 +21,10 @@ jd(i) = j0 + ut;
 end
 
 count = 1;
-    for j = jd(1):jd(2)
-        
-        [~, r(count,:), ~, ~] = planet_oe_and_svJD(planet_id,j,2);
+    for p = jd(1):jd(2)
+        [~, r(count,:), ~, ~] = planet_oe_and_svJD(planet_id,p,2);
         count = count + 1;
-        [~, r(count,:), ~, ~] = planet_oe_and_svJD(planet_id,j+0.5,2);
+        [~, r(count,:), ~, ~] = planet_oe_and_svJD(planet_id,p+0.5,2);
         count = count + 1;
     end
 

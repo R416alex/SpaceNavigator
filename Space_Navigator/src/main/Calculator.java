@@ -8,9 +8,13 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import com.mathworks.engine.EngineException;
 import com.mathworks.engine.MatlabEngine;
+import com.mathworks.engine.MatlabExecutionException;
+import com.mathworks.engine.MatlabSyntaxException;
+
 import org.fxyz3d.geometry.Point3D;
 
 public class Calculator {
@@ -59,10 +63,13 @@ public class Calculator {
 
 	public Object[] Trajectory(double planetid1, double planetid2, double year1, double year2, double month1,
 			double month2, double day1, double day2, double hour1, double hour2, double minute1, double minute2,
-			double second1, double second2, double altitude1, double altitude2, int option) throws Exception {
+			double second1, double second2, double altitude1, double altitude2, int option) {
 
-		Object[] output = engine.feval(9, "TestAlg", planetid1, year1, month1, day1, hour1, minute1, second1, altitude1,
-				planetid2, year2, month2, day2, hour2, minute2, second2, altitude2);
+		Object[] output;
+		try {
+			output = engine.feval(9, "TestAlg", planetid1, year1, month1, day1, hour1, minute1, second1, altitude1,
+					planetid2, year2, month2, day2, hour2, minute2, second2, altitude2);
+		
 		double[][] Rspacecraft = (double[][]) output[8];
 		List<Point3D> stateVectors = new ArrayList<Point3D>();
 		for (double[] d : Rspacecraft) {
@@ -70,6 +77,9 @@ public class Calculator {
 		}
 		Object[] ans = { stateVectors, output[7], output[6] };
 		return ans;
+		} catch (Exception e) {
+		}
+		return null;
 	}
 
 	public Point3D scale(Point3D p) {
@@ -121,8 +131,6 @@ public class Calculator {
 			Files.copy(src, Paths.get(path+"/MatLabFiles/planetPOS.m"), StandardCopyOption.REPLACE_EXISTING);
 			src = this.getClass().getResourceAsStream("/MATLAB/sv_from_oe.m");
 			Files.copy(src, Paths.get(path+"/MatLabFiles/sv_from_oe.m"), StandardCopyOption.REPLACE_EXISTING);
-			src = this.getClass().getResourceAsStream("/MATLAB/TestAlg.asv");
-			Files.copy(src, Paths.get(path+"/MatLabFiles/TestAlg.asv"), StandardCopyOption.REPLACE_EXISTING);
 			src = this.getClass().getResourceAsStream("/MATLAB/TestAlg.m");
 			Files.copy(src, Paths.get(path+"/MatLabFiles/TestAlg.m"), StandardCopyOption.REPLACE_EXISTING);
 			src = this.getClass().getResourceAsStream("/MATLAB/user_inputs.m");

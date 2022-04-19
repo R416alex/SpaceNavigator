@@ -44,9 +44,9 @@
                      </GridPane.margin></Button>
                   <Button fx:id="FullScreenButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleFullscreen" text="Toggle Full Screen" GridPane.columnIndex="3" />
                   <Button mnemonicParsing="false" onAction="#toggleControls" text="Controls" GridPane.columnIndex="3" GridPane.rowSpan="2" />
-                  <Slider fx:id="speedSlider" max="10.0" maxWidth="-Infinity" min="0.5" minWidth="-Infinity" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowSpan="2">
+                  <Slider fx:id="speedSlider" blockIncrement="1.0" majorTickUnit="1.0" max="25.0" maxWidth="-Infinity" min="1.0" minWidth="-Infinity" minorTickCount="0" prefWidth="150.0" snapToTicks="true" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <GridPane.margin>
-                        <Insets />
+                        <Insets bottom="35.0" />
                      </GridPane.margin>
                   </Slider>
                   <Button fx:id="resetButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reset" prefWidth="110.0" text="Reset" visible="false" GridPane.halignment="CENTER" GridPane.rowSpan="2">
@@ -75,20 +75,12 @@
                   </Button>
                   <Label fx:id="speedText" alignment="CENTER" text="Play Speed: 1.00x" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                      <GridPane.margin>
-                        <Insets />
+                        <Insets top="35.0" />
                      </GridPane.margin>
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resetSpeed" text="1.00x" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </Button>
                   <Label fx:id="deltaV" text="Required ΔV: NA (Km/s)" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                      <font>
                         <Font size="29.0" />
@@ -220,7 +212,7 @@
                   <Insets top="10.0" />
                </GridPane.margin>
             </Label>
-            <Label maxWidth="450.0" text="Unable to calculate results due to unreasonable inputs." textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
+            <Label maxWidth="450.0" text="Unable to calculate results. Make sure to allow enough time for the transfer to take place." textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
                <font>
                   <Font size="22.0" />
                </font>
