@@ -59,7 +59,7 @@ public class FPSCamera extends Parent {
 	private boolean fwd, strafeL, strafeR, back, up, down, shift;
 
 	private double mouseSpeed = 1.0, mouseModifier = 0.1;
-	private double moveSpeed = 10.0;
+	private double moveSpeed = 40;
 	private double mousePosX;
 	private double mousePosY;
 	private double mouseOldX;
@@ -104,7 +104,7 @@ public class FPSCamera extends Parent {
 							break;
 						case SHIFT:
 							shift = true;
-							moveSpeed = 20;
+							moveSpeed = 70;
 							break;
 						}
 					} else if (ke.getEventType() == KeyEvent.KEY_RELEASED) {
@@ -128,7 +128,7 @@ public class FPSCamera extends Parent {
 							strafeR = false;
 							break;
 						case SHIFT:
-							moveSpeed = 10;
+							moveSpeed = 40;
 							shift = false;
 							break;
 						}
@@ -224,7 +224,7 @@ public class FPSCamera extends Parent {
 					break;
 				case SHIFT:
 					shift = true;
-					moveSpeed = 20;
+					moveSpeed = 70;
 					break;
 				}
 			} else if (ke.getEventType() == KeyEvent.KEY_RELEASED) {
@@ -248,7 +248,7 @@ public class FPSCamera extends Parent {
 					strafeR = false;
 					break;
 				case SHIFT:
-					moveSpeed = 10;
+					moveSpeed =40;
 					shift = false;
 					break;
 				}
