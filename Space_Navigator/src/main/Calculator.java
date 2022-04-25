@@ -119,8 +119,6 @@ public class Calculator {
 			Files.copy(src, Paths.get(path+"/MatLabFiles/Lambert.m"), StandardCopyOption.REPLACE_EXISTING);
 			src = this.getClass().getResourceAsStream("/MATLAB/license.txt");
 			Files.copy(src, Paths.get(path+"/MatLabFiles/license.txt"), StandardCopyOption.REPLACE_EXISTING);
-			src = this.getClass().getResourceAsStream("/MATLAB/main.m");
-			Files.copy(src, Paths.get(path+"/MatLabFiles/main.m"), StandardCopyOption.REPLACE_EXISTING);
 			src = this.getClass().getResourceAsStream("/MATLAB/oe_from_sv.m");
 			Files.copy(src, Paths.get(path+"/MatLabFiles/oe_from_sv.m"), StandardCopyOption.REPLACE_EXISTING);
 			src = this.getClass().getResourceAsStream("/MATLAB/planet_oe_and_sv.m");
