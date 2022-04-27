@@ -253,7 +253,7 @@
                   <Insets top="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Arrival altitude must be a positive real number." wrapText="true" GridPane.rowIndex="1">
+            <Label text="Source altitude must be a positive real number." wrapText="true" GridPane.rowIndex="1">
                <font>
                   <Font size="22.0" />
                </font>
