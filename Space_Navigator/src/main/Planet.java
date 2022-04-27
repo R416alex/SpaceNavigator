@@ -16,16 +16,13 @@ public class Planet {
 
 	public Point3D location;
 
-	public Axes rotationAxis;
 
-	public double rotationRate;
-	public double rotationAngle;
 
 	public ArrayList<Point3D> Path;
 
 	public int id;
 
-	public Planet(double size, Point3D location, double rotationRate, double rotationAngle, PhongMaterial material,
+	public Planet(double size, Point3D location, PhongMaterial material,
 			int id) {
 
 		this.id = id;
@@ -34,9 +31,6 @@ public class Planet {
 		sphere.setTranslateY(location.getY());
 		sphere.setTranslateZ(location.getZ());
 		sphere.setRotationAxis(new javafx.geometry.Point3D(0, 0, 1));
-		sphere.setRotate(rotationAngle);
-		this.rotationRate = rotationRate;
-		this.rotationAngle = rotationAngle;
 		this.material = material;
 		this.location = location;
 		sphere.setMaterial(material);

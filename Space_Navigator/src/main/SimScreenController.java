@@ -161,43 +161,43 @@ public class SimScreenController {
 		Planets = new ArrayList<Planet>();
 		PhongMaterial sunmaterial = new PhongMaterial();
 		sunmaterial.setDiffuseMap(new Image("images/planets/sun.jpg"));
-		Planets.add(new Planet(750, new Point3D(0, 0, 0), 1 / 27, 7.25, sunmaterial, 0));
+		Planets.add(new Planet(750, new Point3D(0, 0, 0), sunmaterial, 0));
 
 		PhongMaterial mercurymaterial = new PhongMaterial();
 		mercurymaterial.setDiffuseMap(new Image("images/planets/mercury.jpg"));
-		Planets.add(new Planet(75, new Point3D(750 * 2, 0, 0), 1 / .24, 3, mercurymaterial, 1));
+		Planets.add(new Planet(75, new Point3D(750 * 2, 0, 0), mercurymaterial, 1));
 
 		PhongMaterial venusmaterial = new PhongMaterial();
 		venusmaterial.setDiffuseMap(new Image("images/planets/venus.jpg"));
-		Planets.add(new Planet(150, new Point3D(750 * 1, 0, 0), 1 / .24, 3, venusmaterial, 2));
+		Planets.add(new Planet(150, new Point3D(750 * 1, 0, 0), venusmaterial, 2));
 
 		PhongMaterial earthmaterial = new PhongMaterial();
 		earthmaterial.setDiffuseMap(new Image("images/planets/earth.jpg"));
-		Planets.add(new Planet(160, new Point3D(0, 0, 0), 1, 23.44, earthmaterial, 3));
+		Planets.add(new Planet(160, new Point3D(0, 0, 0), earthmaterial, 3));
 
 		PhongMaterial marsmaterial = new PhongMaterial();
 		marsmaterial.setDiffuseMap(new Image("images/planets/mars.jpg"));
-		Planets.add(new Planet(155, new Point3D(-750 * 1, 0, 0), 1 / 1.02, 25, marsmaterial, 4));
+		Planets.add(new Planet(155, new Point3D(-750 * 1, 0, 0), marsmaterial, 4));
 
 		PhongMaterial jupitermaterial = new PhongMaterial();
 		jupitermaterial.setDiffuseMap(new Image("images/planets/jupiter.jpg"));
-		Planets.add(new Planet(500, new Point3D(-750 * 2, 0, 0), 1 / .24, 3, jupitermaterial, 5));
+		Planets.add(new Planet(500, new Point3D(-750 * 2, 0, 0), jupitermaterial, 5));
 
 		PhongMaterial saturnmaterial = new PhongMaterial();
 		saturnmaterial.setDiffuseMap(new Image("images/planets/saturn.jpg"));
-		Planets.add(new Planet(450, new Point3D(-750 * 3, 0, 0), 1 / .24, 3, saturnmaterial, 6));
+		Planets.add(new Planet(450, new Point3D(-750 * 3, 0, 0), saturnmaterial, 6));
 
 		PhongMaterial uranusmaterial = new PhongMaterial();
 		uranusmaterial.setDiffuseMap(new Image("images/planets/uranus.jpg"));
-		Planets.add(new Planet(300, new Point3D(-750 * 4, 0, 0), 1 / .24, 3, uranusmaterial, 7));
+		Planets.add(new Planet(300, new Point3D(-750 * 4, 0, 0), uranusmaterial, 7));
 
 		PhongMaterial neptunematerial = new PhongMaterial();
 		neptunematerial.setDiffuseMap(new Image("images/planets/neptune.jpg"));
-		Planets.add(new Planet(350, new Point3D(-750 * 5, 0, 0), 1 / .24, 3, neptunematerial, 8));
+		Planets.add(new Planet(350, new Point3D(-750 * 5, 0, 0), neptunematerial, 8));
 
 		PhongMaterial plutomaterial = new PhongMaterial();
 		plutomaterial.setDiffuseMap(new Image("images/planets/pluto.jpg"));
-		Planets.add(new Planet(100, new Point3D(-750 * 5, 0, 0), 1 / .24, 3, plutomaterial, 9));
+		Planets.add(new Planet(100, new Point3D(-750 * 5, 0, 0), plutomaterial, 9));
 
 		PhongMaterial rocketmaterial = new PhongMaterial();
 		rocketmaterial.setDiffuseColor(Color.WHITE);
